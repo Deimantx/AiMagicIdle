@@ -111,10 +111,9 @@ var is_respawning = false
 @onready var enemy_skill_timer_label = $VBoxContainer/EnemyInfo/EnemyActions/EnemySkillTimer
 @onready var respawn_timer_label = $VBoxContainer/EnemyInfo/RespawnTimer
 
-# Location selector buttons
-@onready var forest_btn = $VBoxContainer/EnemyInfo/LocationSelector/ForestBtn
-@onready var mine_btn = $VBoxContainer/EnemyInfo/LocationSelector/MineBtn
-@onready var outskirts_btn = $VBoxContainer/EnemyInfo/LocationSelector/OutskirtsBtn
+# Location and monster selector dropdowns
+@onready var location_dropdown = $VBoxContainer/EnemyInfo/LocationSelector/LocationDropdown
+@onready var monster_dropdown = $VBoxContainer/EnemyInfo/LocationSelector/MonsterDropdown
 
 @onready var combat_log = $VBoxContainer/CombatLog/ScrollContainer/LogText
 @onready var reward_text = $VBoxContainer/LootDisplay/RewardText
@@ -170,16 +169,13 @@ func _ready():
 	if combat_btn != null:
 		_set_active_nav_button(combat_btn)
 	
-	# Connect location selector buttons
-	if forest_btn != null:
-		forest_btn.pressed.connect(_on_forest_pressed)
-	if mine_btn != null:
-		mine_btn.pressed.connect(_on_mine_pressed)
-	if outskirts_btn != null:
-		outskirts_btn.pressed.connect(_on_outskirts_pressed)
-	
-	# Set initial location button as active
-	update_location_buttons()
+	# Setup dropdowns
+	if location_dropdown != null:
+		location_dropdown.item_selected.connect(_on_location_selected)
+		_setup_location_dropdown()
+	if monster_dropdown != null:
+		monster_dropdown.item_selected.connect(_on_monster_selected)
+		_setup_monster_dropdown()
 
 func calculate_player_stats():
 	# Base stats
@@ -392,6 +388,29 @@ func spawn_random_monster():
 	enemy_description = random_monster.description
 	enemy_alive = true
 
+func spawn_specific_monster(monster_name: String):
+	# Find the monster in the current location's monster list
+	var location_monsters = monsters[current_location]
+	for monster in location_monsters:
+		if monster.name == monster_name:
+			enemy_name = monster.name
+			enemy_level = monster.level
+			enemy_max_hp = monster.max_hp
+			enemy_hp = enemy_max_hp
+			enemy_damage = monster.damage
+			enemy_ability = monster.ability
+			enemy_ability_desc = monster.ability_desc
+			enemy_description = monster.description
+			enemy_alive = true
+			
+			add_to_combat_log("[color=purple]👹 " + monster_name + " has appeared![/color]")
+			update_ui()
+			return
+	
+	# If monster not found, spawn random monster instead
+	add_to_combat_log("[color=red]❌ Monster not found, spawning random monster instead[/color]")
+	spawn_random_monster()
+
 func update_ui():
 	# Player stats with null checks
 	if level_label != null:
@@ -569,54 +588,69 @@ func _on_shop_pressed():
 func _on_more_pressed():
 	_set_active_nav_button(more_btn)
 
-# Location switching functions
-func _on_forest_pressed():
-	current_location = "Forest"
-	update_location_buttons()
-	add_to_combat_log("[color=green]🌲 Switched to Forest location[/color]")
-	if enemy_alive:
-		add_to_combat_log("[color=yellow]⚠️ Current enemy will remain until defeated[/color]")
-
-func _on_mine_pressed():
-	current_location = "Mine"
-	update_location_buttons()
-	add_to_combat_log("[color=green]⛏️ Switched to Mine location[/color]")
-	if enemy_alive:
-		add_to_combat_log("[color=yellow]⚠️ Current enemy will remain until defeated[/color]")
-
-func _on_outskirts_pressed():
-	current_location = "Outskirts"
-	update_location_buttons()
-	add_to_combat_log("[color=green]🏘️ Switched to Outskirts location[/color]")
-	if enemy_alive:
-		add_to_combat_log("[color=yellow]⚠️ Current enemy will remain until defeated[/color]")
-
-func update_location_buttons():
-	# Reset all location buttons
-	if forest_btn != null:
-		forest_btn.modulate = Color.WHITE
-		forest_btn.flat = true
-	if mine_btn != null:
-		mine_btn.modulate = Color.WHITE
-		mine_btn.flat = true
-	if outskirts_btn != null:
-		outskirts_btn.modulate = Color.WHITE
-		outskirts_btn.flat = true
+# Dropdown setup functions
+func _setup_location_dropdown():
+	if location_dropdown == null:
+		return
 	
-	# Highlight active location
+	location_dropdown.clear()
+	location_dropdown.add_item("🌲 Forest")
+	location_dropdown.add_item("⛏️ Mine")
+	location_dropdown.add_item("🏘️ Outskirts")
+	
+	# Set current location as selected
 	match current_location:
 		"Forest":
-			if forest_btn != null:
-				forest_btn.modulate = Color.GREEN
-				forest_btn.flat = false
+			location_dropdown.selected = 0
 		"Mine":
-			if mine_btn != null:
-				mine_btn.modulate = Color.GREEN
-				mine_btn.flat = false
+			location_dropdown.selected = 1
 		"Outskirts":
-			if outskirts_btn != null:
-				outskirts_btn.modulate = Color.GREEN
-				outskirts_btn.flat = false
+			location_dropdown.selected = 2
+
+func _setup_monster_dropdown():
+	if monster_dropdown == null:
+		return
+	
+	monster_dropdown.clear()
+	
+	# Add monsters based on current location
+	match current_location:
+		"Forest":
+			monster_dropdown.add_item("Forest Wolf")
+			monster_dropdown.add_item("Giant Spider")
+			monster_dropdown.add_item("Bandit Archer")
+		"Mine":
+			monster_dropdown.add_item("Cave Bat")
+			monster_dropdown.add_item("Rock Golem")
+			monster_dropdown.add_item("Miner Zombie")
+		"Outskirts":
+			monster_dropdown.add_item("Desert Scorpion")
+			monster_dropdown.add_item("Nomad Warrior")
+			monster_dropdown.add_item("Sand Elemental")
+	
+	# Set first monster as selected
+	monster_dropdown.selected = 0
+
+# Dropdown selection functions
+func _on_location_selected(index):
+	var locations = ["Forest", "Mine", "Outskirts"]
+	current_location = locations[index]
+	
+	# Update monster dropdown for new location
+	_setup_monster_dropdown()
+	
+	add_to_combat_log("[color=green]📍 Switched to " + current_location + " location[/color]")
+	if enemy_alive:
+		add_to_combat_log("[color=yellow]⚠️ Current enemy will remain until defeated[/color]")
+
+func _on_monster_selected(index):
+	# Get monster name from dropdown
+	var monster_name = monster_dropdown.get_item_text(index)
+	add_to_combat_log("[color=blue]🎯 Selected " + monster_name + " as target[/color]")
+	
+	# If no enemy is alive, spawn the selected monster
+	if not enemy_alive and not is_respawning:
+		spawn_specific_monster(monster_name)
 
 # View switching functions
 func switch_to_hero_view():

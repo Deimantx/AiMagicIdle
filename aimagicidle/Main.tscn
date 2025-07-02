@@ -142,6 +142,28 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 
+[node name="LocationSelector" type="HBoxContainer" parent="VBoxContainer/EnemyInfo"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="LocationLabel" type="Label" parent="VBoxContainer/EnemyInfo/LocationSelector"]
+layout_mode = 2
+text = "Location:"
+vertical_alignment = 1
+
+[node name="LocationDropdown" type="OptionButton" parent="VBoxContainer/EnemyInfo/LocationSelector"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MonsterLabel" type="Label" parent="VBoxContainer/EnemyInfo/LocationSelector"]
+layout_mode = 2
+text = "Monster:"
+vertical_alignment = 1
+
+[node name="MonsterDropdown" type="OptionButton" parent="VBoxContainer/EnemyInfo/LocationSelector"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Title" type="Label" parent="VBoxContainer/EnemyInfo"]
 layout_mode = 2
 text = "=== ENEMY ==="
