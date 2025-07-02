@@ -67,12 +67,18 @@ var is_respawning = false
 @onready var combat_log = $VBoxContainer/CombatLog/ScrollContainer/LogText
 @onready var reward_text = $VBoxContainer/LootDisplay/RewardText
 
-# Bottom navigation buttons (these don't exist in the current scene)
-@onready var combat_btn = null
-@onready var hero_btn = null
-@onready var inventory_btn = null
-@onready var skills_btn = null
-@onready var shop_btn = null
+# Bottom navigation buttons
+@onready var combat_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/CombatBtn
+@onready var hero_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/HeroBtn
+@onready var inventory_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/InventoryBtn
+@onready var equipment_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/EquipmentBtn
+@onready var upgrades_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/UpgradesBtn
+@onready var settings_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/SettingsBtn
+@onready var home_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/HomeBtn
+@onready var progress_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/ProgressBtn
+@onready var quests_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/QuestsBtn
+@onready var shop_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/ShopBtn
+@onready var more_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/MoreBtn
 
 func _ready():
 	# Add to group so Hero panel can find this node
@@ -81,8 +87,33 @@ func _ready():
 	update_ui()
 	add_to_combat_log("[color=yellow]⚔️ Combat begins! Prepare for battle![/color]")
 	
-	# Note: Bottom navigation buttons don't exist in the current scene structure
-	# Combat will start automatically
+	# Connect bottom navigation buttons with null checks
+	if combat_btn != null:
+		combat_btn.pressed.connect(_on_combat_pressed)
+	if hero_btn != null:
+		hero_btn.pressed.connect(_on_hero_pressed)
+	if inventory_btn != null:
+		inventory_btn.pressed.connect(_on_inventory_pressed)
+	if equipment_btn != null:
+		equipment_btn.pressed.connect(_on_equipment_pressed)
+	if upgrades_btn != null:
+		upgrades_btn.pressed.connect(_on_upgrades_pressed)
+	if settings_btn != null:
+		settings_btn.pressed.connect(_on_settings_pressed)
+	if home_btn != null:
+		home_btn.pressed.connect(_on_home_pressed)
+	if progress_btn != null:
+		progress_btn.pressed.connect(_on_progress_pressed)
+	if quests_btn != null:
+		quests_btn.pressed.connect(_on_quests_pressed)
+	if shop_btn != null:
+		shop_btn.pressed.connect(_on_shop_pressed)
+	if more_btn != null:
+		more_btn.pressed.connect(_on_more_pressed)
+	
+	# Set Combat as default active button
+	if combat_btn != null:
+		_set_active_nav_button(combat_btn)
 	
 func _process(delta):
 	if is_respawning:
@@ -388,84 +419,103 @@ func add_to_combat_log(message):
 					limited_text += lines[i] + "\n"
 			combat_log.text = limited_text
 
-# Bottom Navigation Functions (commented out - navigation doesn't exist in current scene)
-# func _set_active_nav_button(active_button: Button):
-# 	# Reset all buttons to normal state
-# 	var buttons = [combat_btn, hero_btn, inventory_btn, skills_btn, shop_btn]
-# 	for button in buttons:
-# 		if button != null:
-# 			button.modulate = Color.WHITE
-# 			button.flat = true
-# 	
-# 	# Highlight active button
-# 	if active_button != null:
-# 		active_button.modulate = Color.CYAN
-# 		active_button.flat = false
+# Bottom Navigation Functions
+func _set_active_nav_button(active_button: Button):
+	# Reset all buttons to normal state
+	var buttons = [combat_btn, hero_btn, inventory_btn, equipment_btn, upgrades_btn, settings_btn, home_btn, progress_btn, quests_btn, shop_btn, more_btn]
+	for button in buttons:
+		if button != null:
+			button.modulate = Color.WHITE
+			button.flat = true
+	
+	# Highlight active button
+	if active_button != null:
+		active_button.modulate = Color.CYAN
+		active_button.flat = false
 
-# func _on_combat_pressed():
-# 	_set_active_nav_button(combat_btn)
-# 	add_to_combat_log("[color=cyan]📊 Combat view is already active![/color]")
+func _on_combat_pressed():
+	_set_active_nav_button(combat_btn)
+	add_to_combat_log("[color=cyan]📊 Combat view is already active![/color]")
 
-# func _on_hero_pressed():
-# 	switch_to_hero_view()
+func _on_hero_pressed():
+	switch_to_hero_view()
 
-# func _on_inventory_pressed():
-# 	_set_active_nav_button(inventory_btn)
-# 	add_to_combat_log("[color=cyan]🎒 Inventory - Coming Soon! (Items, weapons, armor, consumables)[/color]")
+func _on_inventory_pressed():
+	_set_active_nav_button(inventory_btn)
 
-# func _on_skills_pressed():
-# 	_set_active_nav_button(skills_btn)
-# 	add_to_combat_log("[color=cyan]⭐ Skills - Coming Soon! (Skill tree, upgrades, talents)[/color]")
+func _on_equipment_pressed():
+	_set_active_nav_button(equipment_btn)
 
-# func _on_shop_pressed():
-# 	_set_active_nav_button(shop_btn)
-# 	add_to_combat_log("[color=cyan]🏪 Shop - Coming Soon! (Buy weapons, armor, items with gold)[/color]")
+func _on_upgrades_pressed():
+	_set_active_nav_button(upgrades_btn)
 
-# View switching functions (commented out - navigation doesn't exist in current scene)
-# func switch_to_hero_view():
-# 	if current_view == "hero":
-# 		return
-# 		
-# 	current_view = "hero"
-# 	
-# 	# Hide combat UI
-# 	get_node("MainContainer/GameContent").visible = false
-# 	get_node("MainContainer/BottomNav").visible = false
-# 	
-# 	# Create and show hero panel if it doesn't exist
-# 	if hero_instance == null:
-# 		hero_instance = hero_scene.instantiate()
-# 		add_child(hero_instance)
-# 	
-# 	hero_instance.visible = true
-# 	
-# 	# Update hero panel with current player stats
-# 	var player_data = {
-# 		"level": player_level,
-# 		"max_hp": player_max_hp,
-# 		"damage": player_damage,
-# 		"defense": 5,  # We'll add this stat later
-# 		"max_mp": player_max_mp
-# 	}
-# 	hero_instance.update_player_stats(player_data)
-# 	
-# 	add_to_combat_log("[color=cyan]👤 Switched to Hero Panel[/color]")
+func _on_settings_pressed():
+	_set_active_nav_button(settings_btn)
 
-# func switch_to_combat_view():
-# 	if current_view == "combat":
-# 		return
-# 		
-# 	current_view = "combat"
-# 	
-# 	# Hide hero panel
-# 	if hero_instance != null:
-# 		hero_instance.visible = false
-# 	
-# 	# Show combat UI
-# 	get_node("MainContainer/GameContent").visible = true
-# 	get_node("MainContainer/BottomNav").visible = true
-# 	
-# 	# Set combat as active button
-# 	_set_active_nav_button(combat_btn)
-# 	
-# 	add_to_combat_log("[color=cyan]⚔️ Switched to Combat View[/color]")
+func _on_home_pressed():
+	_set_active_nav_button(home_btn)
+
+func _on_progress_pressed():
+	_set_active_nav_button(progress_btn)
+
+func _on_quests_pressed():
+	_set_active_nav_button(quests_btn)
+
+func _on_shop_pressed():
+	_set_active_nav_button(shop_btn)
+
+func _on_more_pressed():
+	_set_active_nav_button(more_btn)
+
+# View switching functions
+func switch_to_hero_view():
+	if current_view == "hero":
+		return
+		
+	current_view = "hero"
+	
+	# Hide combat UI (keep bottom nav visible)
+	get_node("VBoxContainer/PlayerStats").visible = false
+	get_node("VBoxContainer/EnemyInfo").visible = false
+	get_node("VBoxContainer/CombatLog").visible = false
+	get_node("VBoxContainer/LootDisplay").visible = false
+	
+	# Create and show hero panel if it doesn't exist
+	if hero_instance == null:
+		hero_instance = hero_scene.instantiate()
+		add_child(hero_instance)
+	
+	hero_instance.visible = true
+	
+	# Update hero panel with current player stats
+	var player_data = {
+		"level": player_level,
+		"max_hp": player_max_hp,
+		"damage": player_damage,
+		"defense": 5,  # We'll add this stat later
+		"max_mp": player_max_mp
+	}
+	hero_instance.update_player_stats(player_data)
+	
+	add_to_combat_log("[color=cyan]👤 Switched to Hero Panel[/color]")
+
+func switch_to_combat_view():
+	if current_view == "combat":
+		return
+		
+	current_view = "combat"
+	
+	# Hide hero panel
+	if hero_instance != null:
+		hero_instance.visible = false
+	
+	# Show combat UI
+	get_node("VBoxContainer/PlayerStats").visible = true
+	get_node("VBoxContainer/EnemyInfo").visible = true
+	get_node("VBoxContainer/CombatLog").visible = true
+	get_node("VBoxContainer/LootDisplay").visible = true
+	
+	# Set combat as active button
+	_set_active_nav_button(combat_btn)
+	
+	add_to_combat_log("[color=cyan]⚔️ Switched to Combat View[/color]")

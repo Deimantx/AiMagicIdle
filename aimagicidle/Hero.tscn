@@ -398,7 +398,7 @@ text = "+"
 horizontal_alignment = 1
 
 [node name="BottomNav" type="Panel" parent="MainContainer"]
-custom_minimum_size = Vector2(0, 120)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_vertical = 0
 
@@ -430,36 +430,31 @@ size_flags_vertical = 3
 [node name="CombatBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "⚔️
-Combat"
+text = "⚔️ Combat"
 flat = true
 
 [node name="EquipmentBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🛡️
-Equipment"
+text = "🛡️ Equipment"
 flat = true
 
 [node name="UpgradesBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "💎
-Upgrades"
+text = "💎 Upgrades"
 flat = true
 
 [node name="InventoryBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🎒
-Inventory"
+text = "🎒 Inventory"
 flat = true
 
 [node name="SettingsBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "⚙️
-Settings"
+text = "⚙️ Settings"
 flat = true
 
 [node name="BottomRow" type="HBoxContainer" parent="MainContainer/BottomNav/NavContainer"]
@@ -469,41 +464,35 @@ size_flags_vertical = 3
 [node name="HomeBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🏠
-Home"
+text = "🏠 Home"
 flat = true
 
 [node name="HeroBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "👤
-Hero"
+text = "👤 Hero"
 flat = true
 
 [node name="ProgressBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "📈
-Progress"
+text = "📈 Progress"
 flat = true
 
 [node name="QuestsBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🎯
-Quests"
+text = "🎯 Quests"
 flat = true
 
 [node name="ShopBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🏪
-Shop"
+text = "🏪 Shop"
 flat = true
 
 [node name="MoreBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "⋯
-More"
+text = "⋯ More"
 flat = true
