@@ -38,13 +38,27 @@ layout_mode = 2
 text = "Level: 1"
 vertical_alignment = 1
 
-[node name="XP" type="Label" parent="VBoxContainer/PlayerStats"]
+[node name="XPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 25)
+value = 0.0
+show_percentage = false
+modulate = Color(1, 1, 0.6, 1)
+
+[node name="XPLabel" type="Label" parent="VBoxContainer/PlayerStats/XPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "XP: 0 / 100"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 30)
 value = 100.0
 show_percentage = false
 
@@ -61,6 +75,7 @@ vertical_alignment = 1
 
 [node name="MPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 30)
 value = 50.0
 show_percentage = false
 modulate = Color(0.4, 0.4, 1, 1)
@@ -80,6 +95,33 @@ vertical_alignment = 1
 layout_mode = 2
 text = "Gold: 0"
 vertical_alignment = 1
+
+[node name="PlayerActions" type="VBoxContainer" parent="VBoxContainer/PlayerStats"]
+layout_mode = 2
+
+[node name="AttackLabel" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
+layout_mode = 2
+text = "Attack:"
+vertical_alignment = 1
+
+[node name="AttackBar" type="ProgressBar" parent="VBoxContainer/PlayerStats/PlayerActions"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+max_value = 2.5
+show_percentage = false
+modulate = Color(1, 0.7, 0.7, 1)
+
+[node name="SkillLabel" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
+layout_mode = 2
+text = "Fireball:"
+vertical_alignment = 1
+
+[node name="SkillBar" type="ProgressBar" parent="VBoxContainer/PlayerStats/PlayerActions"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+max_value = 3.5
+show_percentage = false
+modulate = Color(1, 0.5, 0.2, 1)
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -102,6 +144,7 @@ vertical_alignment = 1
 
 [node name="EnemyHPBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 30)
 value = 100.0
 show_percentage = false
 modulate = Color(1, 0.4, 0.4, 1)
@@ -116,6 +159,33 @@ grow_vertical = 2
 text = "HP: 80 / 80"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="EnemyActions" type="VBoxContainer" parent="VBoxContainer/EnemyInfo"]
+layout_mode = 2
+
+[node name="EnemyAttackLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+layout_mode = 2
+text = "Wolf Attack:"
+vertical_alignment = 1
+
+[node name="EnemyAttackBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+max_value = 2.0
+show_percentage = false
+modulate = Color(0.8, 0.3, 0.3, 1)
+
+[node name="EnemySkillLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+layout_mode = 2
+text = "Vicious Bite:"
+vertical_alignment = 1
+
+[node name="EnemySkillBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+max_value = 2.5
+show_percentage = false
+modulate = Color(0.6, 0.1, 0.1, 1)
 
 [node name="RespawnTimer" type="Label" parent="VBoxContainer/EnemyInfo"]
 layout_mode = 2
