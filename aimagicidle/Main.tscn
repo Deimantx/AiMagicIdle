@@ -1,24 +1,172 @@
-[gd_scene format=3 uid="uid://5p6m1bwqm4v"]
+[gd_scene load_steps=2 format=3 uid="uid://5p6m1bwqm4v"]
 
-[node name="Control" type="Control"]
+[ext_resource type="Script" path="res://Main.gd" id="1_8h7j3"]
+
+[node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_8h7j3")
 
-[node name="Claude you are cool" type="Label" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Claude you are cool"
+
+[node name="PlayerStats" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Title" type="Label" parent="VBoxContainer/PlayerStats"]
+layout_mode = 2
+text = "=== PLAYER STATS ==="
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Level" type="Label" parent="VBoxContainer/PlayerStats"]
+layout_mode = 2
+text = "Level: 1"
+vertical_alignment = 1
+
+[node name="XP" type="Label" parent="VBoxContainer/PlayerStats"]
+layout_mode = 2
+text = "XP: 0 / 100"
+vertical_alignment = 1
+
+[node name="HPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="VBoxContainer/PlayerStats/HPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
+layout_mode = 2
+value = 50.0
+show_percentage = false
+modulate = Color(0.4, 0.4, 1, 1)
+
+[node name="MPLabel" type="Label" parent="VBoxContainer/PlayerStats/MPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "MP: 50 / 50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Gold" type="Label" parent="VBoxContainer/PlayerStats"]
+layout_mode = 2
+text = "Gold: 0"
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="EnemyInfo" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Title" type="Label" parent="VBoxContainer/EnemyInfo"]
+layout_mode = 2
+text = "=== ENEMY ==="
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyName" type="Label" parent="VBoxContainer/EnemyInfo"]
+layout_mode = 2
+text = "Wolf Lv.1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyHPBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo"]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+modulate = Color(1, 0.4, 0.4, 1)
+
+[node name="EnemyHPLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyHPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 80 / 80"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RespawnTimer" type="Label" parent="VBoxContainer/EnemyInfo"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+modulate = Color(1, 1, 0, 1)
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="CombatLog" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="VBoxContainer/CombatLog"]
+layout_mode = 2
+text = "=== COMBAT LOG ==="
+horizontal_alignment = 1
+vertical_alignment = 1
+size_flags_vertical = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/CombatLog"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LogText" type="RichTextLabel" parent="VBoxContainer/CombatLog/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[color=gray]Combat will begin shortly...[/color]"
+fit_content = true
+scroll_following = true
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="LootDisplay" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Title" type="Label" parent="VBoxContainer/LootDisplay"]
+layout_mode = 2
+text = "=== REWARDS ==="
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RewardText" type="Label" parent="VBoxContainer/LootDisplay"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+modulate = Color(0, 1, 0, 1)
