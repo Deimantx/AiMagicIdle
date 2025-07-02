@@ -3,6 +3,8 @@
 ## 🎮 Game Overview
 A fully functional idle combat game built for Godot 4.4 based on the prototype specifications.
 
+**Last Updated:** Latest enhancements include enhanced combat log colors, persistent bottom navigation, and improved mobile UI layout.
+
 ## ✅ Implemented Features
 
 ### 📱 Enhanced Main Screen UI
