@@ -36,31 +36,48 @@ var respawn_timer = 0.0
 var is_respawning = false
 
 # UI references
-@onready var level_label = $VBoxContainer/PlayerStats/Level
-@onready var xp_bar = $VBoxContainer/PlayerStats/XPBar
-@onready var xp_bar_label = $VBoxContainer/PlayerStats/XPBar/XPLabel
-@onready var hp_bar = $VBoxContainer/PlayerStats/HPBar
-@onready var hp_label = $VBoxContainer/PlayerStats/HPBar/HPLabel
-@onready var mp_bar = $VBoxContainer/PlayerStats/MPBar
-@onready var mp_label = $VBoxContainer/PlayerStats/MPBar/MPLabel
-@onready var gold_label = $VBoxContainer/PlayerStats/Gold
+@onready var level_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/Level
+@onready var xp_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/XPBar
+@onready var xp_bar_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/XPBar/XPLabel
+@onready var hp_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/HPBar
+@onready var hp_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/HPBar/HPLabel
+@onready var mp_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/MPBar
+@onready var mp_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/MPBar/MPLabel
+@onready var gold_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/Gold
 
-@onready var player_attack_bar = $VBoxContainer/PlayerStats/PlayerActions/AttackBar
-@onready var player_skill_bar = $VBoxContainer/PlayerStats/PlayerActions/SkillBar
+@onready var player_attack_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/PlayerActions/AttackBar
+@onready var player_skill_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/PlayerActions/SkillBar
 
-@onready var enemy_name_label = $VBoxContainer/EnemyInfo/EnemyName
-@onready var enemy_hp_bar = $VBoxContainer/EnemyInfo/EnemyHPBar
-@onready var enemy_hp_label = $VBoxContainer/EnemyInfo/EnemyHPBar/EnemyHPLabel
-@onready var enemy_attack_bar = $VBoxContainer/EnemyInfo/EnemyActions/EnemyAttackBar
-@onready var enemy_skill_bar = $VBoxContainer/EnemyInfo/EnemyActions/EnemySkillBar
-@onready var respawn_timer_label = $VBoxContainer/EnemyInfo/RespawnTimer
+@onready var enemy_name_label = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyName
+@onready var enemy_hp_bar = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyHPBar
+@onready var enemy_hp_label = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyHPBar/EnemyHPLabel
+@onready var enemy_attack_bar = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyActions/EnemyAttackBar
+@onready var enemy_skill_bar = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyActions/EnemySkillBar
+@onready var respawn_timer_label = $MainContainer/GameContent/VBoxContainer/EnemyInfo/RespawnTimer
 
-@onready var combat_log = $VBoxContainer/CombatLog/ScrollContainer/LogText
-@onready var reward_text = $VBoxContainer/LootDisplay/RewardText
+@onready var combat_log = $MainContainer/GameContent/VBoxContainer/CombatLog/ScrollContainer/LogText
+@onready var reward_text = $MainContainer/GameContent/VBoxContainer/LootDisplay/RewardText
+
+# Bottom navigation buttons
+@onready var combat_btn = $MainContainer/BottomNav/NavContainer/CombatBtn
+@onready var hero_btn = $MainContainer/BottomNav/NavContainer/HeroBtn
+@onready var inventory_btn = $MainContainer/BottomNav/NavContainer/InventoryBtn
+@onready var skills_btn = $MainContainer/BottomNav/NavContainer/SkillsBtn
+@onready var shop_btn = $MainContainer/BottomNav/NavContainer/ShopBtn
 
 func _ready():
 	update_ui()
-	add_to_combat_log("[color=yellow]Combat begins![/color]")
+	add_to_combat_log("[color=yellow]⚔️ Combat begins! Prepare for battle![/color]")
+	
+	# Connect bottom navigation buttons
+	combat_btn.pressed.connect(_on_combat_pressed)
+	hero_btn.pressed.connect(_on_hero_pressed)
+	inventory_btn.pressed.connect(_on_inventory_pressed)
+	skills_btn.pressed.connect(_on_skills_pressed)
+	shop_btn.pressed.connect(_on_shop_pressed)
+	
+	# Set Combat as default active button
+	_set_active_nav_button(combat_btn)
 	
 func _process(delta):
 	if is_respawning:
@@ -106,7 +123,7 @@ func player_basic_attack():
 		
 	var damage = player_damage + randi() % 6 - 2  # ±2 damage variance
 	enemy_hp -= damage
-	add_to_combat_log("[color=lightblue]Player attacks for " + str(damage) + " damage![/color]")
+	add_to_combat_log("[color=lime]💥 Player attacks for [color=yellow]" + str(damage) + "[/color] damage![/color]")
 	
 	if enemy_hp <= 0:
 		enemy_died()
@@ -120,7 +137,7 @@ func player_cast_fireball():
 	player_mp -= 10
 	var damage = (player_damage * 1.5) + randi() % 8 - 3  # 1.5x damage with variance
 	enemy_hp -= damage
-	add_to_combat_log("[color=orange]Player casts Fireball for " + str(damage) + " damage![/color]")
+	add_to_combat_log("[color=orange]🔥 Player casts Fireball for [color=yellow]" + str(damage) + "[/color] damage![/color]")
 	
 	if enemy_hp <= 0:
 		enemy_died()
@@ -133,7 +150,7 @@ func enemy_basic_attack():
 		
 	var damage = enemy_damage + randi() % 4 - 1  # ±1 damage variance
 	player_hp -= damage
-	add_to_combat_log("[color=red]" + enemy_name + " attacks for " + str(damage) + " damage![/color]")
+	add_to_combat_log("[color=lightcoral]⚔️ " + enemy_name + " attacks! You take [color=red]" + str(damage) + "[/color] damage![/color]")
 	
 	if player_hp <= 0:
 		player_hp = 1  # Player can't die in idle game
@@ -146,7 +163,7 @@ func enemy_vicious_bite():
 		
 	var damage = (enemy_damage * 1.3) + randi() % 5 - 2  # 1.3x damage with variance
 	player_hp -= damage
-	add_to_combat_log("[color=darkred]" + enemy_name + " uses Vicious Bite for " + str(damage) + " damage![/color]")
+	add_to_combat_log("[color=crimson]🩸 " + enemy_name + " uses Vicious Bite! You take [color=red]" + str(damage) + "[/color] damage![/color]")
 	
 	if player_hp <= 0:
 		player_hp = 1  # Player can't die in idle game
@@ -164,7 +181,8 @@ func enemy_died():
 	player_xp += xp_reward
 	player_gold += gold_reward
 	
-	add_to_combat_log("[color=green]" + enemy_name + " dies![/color]")
+	add_to_combat_log("[color=green]💀 " + enemy_name + " is defeated![/color]")
+	add_to_combat_log("[color=yellow]💰 Gained " + str(xp_reward) + " XP and " + str(gold_reward) + " Gold![/color]")
 	show_rewards(xp_reward, gold_reward)
 	
 	# Check for level up
@@ -206,7 +224,7 @@ func check_level_up():
 		# Increase XP needed for next level
 		player_xp_needed = player_level * 100
 		
-		add_to_combat_log("[color=gold]LEVEL UP! Now level " + str(player_level) + "![/color]")
+		add_to_combat_log("[color=gold]⭐ LEVEL UP! Now level " + str(player_level) + "! (+10 HP, +3 MP, +2 Damage)[/color]")
 
 func start_respawn():
 	is_respawning = true
@@ -231,7 +249,7 @@ func handle_respawn(delta):
 		player_hp = player_max_hp
 		player_mp = player_max_mp
 		
-		add_to_combat_log("[color=cyan]A new " + enemy_name + " appears! Player restored to full health![/color]")
+		add_to_combat_log("[color=cyan]🐺 A new " + enemy_name + " appears! Player restored to full health![/color]")
 		update_ui()
 	else:
 		# Update respawn timer display
@@ -298,3 +316,35 @@ func add_to_combat_log(message):
 			if i < lines.size():
 				limited_text += lines[i] + "\n"
 		combat_log.text = limited_text
+
+# Bottom Navigation Functions
+func _set_active_nav_button(active_button: Button):
+	# Reset all buttons to normal state
+	var buttons = [combat_btn, hero_btn, inventory_btn, skills_btn, shop_btn]
+	for button in buttons:
+		button.modulate = Color.WHITE
+		button.flat = true
+	
+	# Highlight active button
+	active_button.modulate = Color.CYAN
+	active_button.flat = false
+
+func _on_combat_pressed():
+	_set_active_nav_button(combat_btn)
+	add_to_combat_log("[color=cyan]📊 Combat view is already active![/color]")
+
+func _on_hero_pressed():
+	_set_active_nav_button(hero_btn)
+	add_to_combat_log("[color=cyan]🛡️ Hero Panel - Coming Soon! (Character stats, equipment, abilities)[/color]")
+
+func _on_inventory_pressed():
+	_set_active_nav_button(inventory_btn)
+	add_to_combat_log("[color=cyan]🎒 Inventory - Coming Soon! (Items, weapons, armor, consumables)[/color]")
+
+func _on_skills_pressed():
+	_set_active_nav_button(skills_btn)
+	add_to_combat_log("[color=cyan]⭐ Skills - Coming Soon! (Skill tree, upgrades, talents)[/color]")
+
+func _on_shop_pressed():
+	_set_active_nav_button(shop_btn)
+	add_to_combat_log("[color=cyan]🏪 Shop - Coming Soon! (Buy weapons, armor, items with gold)[/color]")

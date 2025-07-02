@@ -11,41 +11,50 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8h7j3")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MainContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameContent" type="ScrollContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/GameContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 offset_left = 20.0
 offset_top = 20.0
 offset_right = -20.0
 offset_bottom = -20.0
-grow_horizontal = 2
-grow_vertical = 2
 
-[node name="PlayerStats" type="VBoxContainer" parent="VBoxContainer"]
+[node name="PlayerStats" type="VBoxContainer" parent="MainContainer/GameContent/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="Title" type="Label" parent="VBoxContainer/PlayerStats"]
+[node name="Title" type="Label" parent="MainContainer/GameContent/VBoxContainer/PlayerStats"]
 layout_mode = 2
 text = "=== PLAYER STATS ==="
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Level" type="Label" parent="VBoxContainer/PlayerStats"]
+[node name="Level" type="Label" parent="MainContainer/GameContent/VBoxContainer/PlayerStats"]
 layout_mode = 2
 text = "Level: 1"
 vertical_alignment = 1
 
-[node name="XPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
+[node name="XPBar" type="ProgressBar" parent="MainContainer/GameContent/VBoxContainer/PlayerStats"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 25)
 value = 0.0
 show_percentage = false
 modulate = Color(1, 1, 0.6, 1)
 
-[node name="XPLabel" type="Label" parent="VBoxContainer/PlayerStats/XPBar"]
+[node name="XPLabel" type="Label" parent="MainContainer/GameContent/VBoxContainer/PlayerStats/XPBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,13 +65,13 @@ text = "XP: 0 / 100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
+[node name="HPBar" type="ProgressBar" parent="MainContainer/GameContent/VBoxContainer/PlayerStats"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 30)
 value = 100.0
 show_percentage = false
 
-[node name="HPLabel" type="Label" parent="VBoxContainer/PlayerStats/HPBar"]
+[node name="HPLabel" type="Label" parent="MainContainer/GameContent/VBoxContainer/PlayerStats/HPBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,14 +82,14 @@ text = "HP: 100 / 100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
+[node name="MPBar" type="ProgressBar" parent="MainContainer/GameContent/VBoxContainer/PlayerStats"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 30)
 value = 50.0
 show_percentage = false
 modulate = Color(0.4, 0.4, 1, 1)
 
-[node name="MPLabel" type="Label" parent="VBoxContainer/PlayerStats/MPBar"]
+[node name="MPLabel" type="Label" parent="MainContainer/GameContent/VBoxContainer/PlayerStats/MPBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -91,65 +100,65 @@ text = "MP: 50 / 50"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Gold" type="Label" parent="VBoxContainer/PlayerStats"]
+[node name="Gold" type="Label" parent="MainContainer/GameContent/VBoxContainer/PlayerStats"]
 layout_mode = 2
 text = "Gold: 0"
 vertical_alignment = 1
 
-[node name="PlayerActions" type="VBoxContainer" parent="VBoxContainer/PlayerStats"]
+[node name="PlayerActions" type="VBoxContainer" parent="MainContainer/GameContent/VBoxContainer/PlayerStats"]
 layout_mode = 2
 
-[node name="AttackLabel" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
+[node name="AttackLabel" type="Label" parent="MainContainer/GameContent/VBoxContainer/PlayerStats/PlayerActions"]
 layout_mode = 2
 text = "Attack:"
 vertical_alignment = 1
 
-[node name="AttackBar" type="ProgressBar" parent="VBoxContainer/PlayerStats/PlayerActions"]
+[node name="AttackBar" type="ProgressBar" parent="MainContainer/GameContent/VBoxContainer/PlayerStats/PlayerActions"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 20)
 max_value = 2.5
 show_percentage = false
 modulate = Color(1, 0.7, 0.7, 1)
 
-[node name="SkillLabel" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
+[node name="SkillLabel" type="Label" parent="MainContainer/GameContent/VBoxContainer/PlayerStats/PlayerActions"]
 layout_mode = 2
 text = "Fireball:"
 vertical_alignment = 1
 
-[node name="SkillBar" type="ProgressBar" parent="VBoxContainer/PlayerStats/PlayerActions"]
+[node name="SkillBar" type="ProgressBar" parent="MainContainer/GameContent/VBoxContainer/PlayerStats/PlayerActions"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 20)
 max_value = 3.5
 show_percentage = false
 modulate = Color(1, 0.5, 0.2, 1)
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MainContainer/GameContent/VBoxContainer"]
 layout_mode = 2
 
-[node name="EnemyInfo" type="VBoxContainer" parent="VBoxContainer"]
+[node name="EnemyInfo" type="VBoxContainer" parent="MainContainer/GameContent/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="Title" type="Label" parent="VBoxContainer/EnemyInfo"]
+[node name="Title" type="Label" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo"]
 layout_mode = 2
 text = "=== ENEMY ==="
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyName" type="Label" parent="VBoxContainer/EnemyInfo"]
+[node name="EnemyName" type="Label" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo"]
 layout_mode = 2
 text = "Wolf Lv.1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyHPBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo"]
+[node name="EnemyHPBar" type="ProgressBar" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 30)
 value = 100.0
 show_percentage = false
 modulate = Color(1, 0.4, 0.4, 1)
 
-[node name="EnemyHPLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyHPBar"]
+[node name="EnemyHPLabel" type="Label" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyHPBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -160,59 +169,59 @@ text = "HP: 80 / 80"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyActions" type="VBoxContainer" parent="VBoxContainer/EnemyInfo"]
+[node name="EnemyActions" type="VBoxContainer" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo"]
 layout_mode = 2
 
-[node name="EnemyAttackLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+[node name="EnemyAttackLabel" type="Label" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyActions"]
 layout_mode = 2
 text = "Wolf Attack:"
 vertical_alignment = 1
 
-[node name="EnemyAttackBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+[node name="EnemyAttackBar" type="ProgressBar" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyActions"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 20)
 max_value = 2.0
 show_percentage = false
 modulate = Color(0.8, 0.3, 0.3, 1)
 
-[node name="EnemySkillLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+[node name="EnemySkillLabel" type="Label" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyActions"]
 layout_mode = 2
 text = "Vicious Bite:"
 vertical_alignment = 1
 
-[node name="EnemySkillBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+[node name="EnemySkillBar" type="ProgressBar" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyActions"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 20)
 max_value = 2.5
 show_percentage = false
 modulate = Color(0.6, 0.1, 0.1, 1)
 
-[node name="RespawnTimer" type="Label" parent="VBoxContainer/EnemyInfo"]
+[node name="RespawnTimer" type="Label" parent="MainContainer/GameContent/VBoxContainer/EnemyInfo"]
 layout_mode = 2
 text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
 modulate = Color(1, 1, 0, 1)
 
-[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="MainContainer/GameContent/VBoxContainer"]
 layout_mode = 2
 
-[node name="CombatLog" type="VBoxContainer" parent="VBoxContainer"]
+[node name="CombatLog" type="VBoxContainer" parent="MainContainer/GameContent/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Title" type="Label" parent="VBoxContainer/CombatLog"]
+[node name="Title" type="Label" parent="MainContainer/GameContent/VBoxContainer/CombatLog"]
 layout_mode = 2
 text = "=== COMBAT LOG ==="
 horizontal_alignment = 1
 vertical_alignment = 1
 size_flags_vertical = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/CombatLog"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/GameContent/VBoxContainer/CombatLog"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LogText" type="RichTextLabel" parent="VBoxContainer/CombatLog/ScrollContainer"]
+[node name="LogText" type="RichTextLabel" parent="MainContainer/GameContent/VBoxContainer/CombatLog/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -221,22 +230,83 @@ text = "[color=gray]Combat will begin shortly...[/color]"
 fit_content = true
 scroll_following = true
 
-[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+[node name="HSeparator3" type="HSeparator" parent="MainContainer/GameContent/VBoxContainer"]
 layout_mode = 2
 
-[node name="LootDisplay" type="VBoxContainer" parent="VBoxContainer"]
+[node name="LootDisplay" type="VBoxContainer" parent="MainContainer/GameContent/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="Title" type="Label" parent="VBoxContainer/LootDisplay"]
+[node name="Title" type="Label" parent="MainContainer/GameContent/VBoxContainer/LootDisplay"]
 layout_mode = 2
 text = "=== REWARDS ==="
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RewardText" type="Label" parent="VBoxContainer/LootDisplay"]
+[node name="RewardText" type="Label" parent="MainContainer/GameContent/VBoxContainer/LootDisplay"]
 layout_mode = 2
 text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
 modulate = Color(0, 1, 0, 1)
+
+[node name="BottomNav" type="Panel" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+custom_minimum_size = Vector2(0, 80)
+
+[node name="NavBackground" type="ColorRect" parent="MainContainer/BottomNav"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.2, 0.9)
+
+[node name="NavContainer" type="HBoxContainer" parent="MainContainer/BottomNav"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CombatBtn" type="Button" parent="MainContainer/BottomNav/NavContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⚔️
+Combat"
+flat = true
+
+[node name="HeroBtn" type="Button" parent="MainContainer/BottomNav/NavContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🛡️
+Hero"
+flat = true
+
+[node name="InventoryBtn" type="Button" parent="MainContainer/BottomNav/NavContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🎒
+Inventory"
+flat = true
+
+[node name="SkillsBtn" type="Button" parent="MainContainer/BottomNav/NavContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⭐
+Skills"
+flat = true
+
+[node name="ShopBtn" type="Button" parent="MainContainer/BottomNav/NavContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🏪
+Shop"
+flat = true
