@@ -1,4 +1,4 @@
-extends RefCounted
+extends Node
 
 # Global game data
 static var player_level: int = 1
@@ -20,6 +20,7 @@ static var monster_selected: int = 0
 
 # Save/Load functions
 static func save_game():
+	print("Saving game...")
 	var game_data = {
 		"player_level": player_level,
 		"player_xp": player_xp,
