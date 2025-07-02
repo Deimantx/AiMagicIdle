@@ -56,6 +56,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
+modulate = Color(0.4, 1, 0.4, 1)
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 value = 100.0
@@ -110,6 +111,12 @@ layout_mode = 2
 max_value = 2.5
 show_percentage = false
 
+[node name="AttackTimer" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
+layout_mode = 2
+text = "Ready"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="SkillLabel" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
 layout_mode = 2
 text = "Fireball:"
@@ -121,6 +128,12 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 max_value = 3.5
 show_percentage = false
+
+[node name="SkillTimer" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
+layout_mode = 2
+text = "Ready"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -174,6 +187,12 @@ layout_mode = 2
 max_value = 2.0
 show_percentage = false
 
+[node name="EnemyAttackTimer" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+layout_mode = 2
+text = "Ready"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="EnemySkillLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
 layout_mode = 2
 text = "Vicious Bite:"
@@ -185,6 +204,12 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 max_value = 2.5
 show_percentage = false
+
+[node name="EnemySkillTimer" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+layout_mode = 2
+text = "Ready"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="RespawnTimer" type="Label" parent="VBoxContainer/EnemyInfo"]
 modulate = Color(1, 1, 0, 1)
@@ -215,7 +240,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-text = "[color=gray]Combat will begin shortly...[/color]"
 fit_content = true
 scroll_following = true
 

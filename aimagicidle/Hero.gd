@@ -40,47 +40,73 @@ extends Control
 var player_data = {}
 
 func _ready():
-	# Connect equipment slot signals (placeholders for now)
-	chest_slot.pressed.connect(_on_equipment_slot_pressed.bind("Chest Armor", "🎽"))
-	armor_slot.pressed.connect(_on_equipment_slot_pressed.bind("Armor", "👕"))
-	boots_slot.pressed.connect(_on_equipment_slot_pressed.bind("Boots", "🥾"))
-	weapon_slot.pressed.connect(_on_equipment_slot_pressed.bind("Weapon", "⚔️"))
-	necklace_slot.pressed.connect(_on_equipment_slot_pressed.bind("Necklace", "📿"))
-	ring_slot.pressed.connect(_on_equipment_slot_pressed.bind("Ring", "💍"))
-	backpack_slot.pressed.connect(_on_equipment_slot_pressed.bind("Backpack", "🎒"))
-	skill_slot.pressed.connect(_on_equipment_slot_pressed.bind("Skill Card", "🃏"))
+	# Connect equipment slot signals (placeholders for now) with null checks
+	if chest_slot != null:
+		chest_slot.pressed.connect(_on_equipment_slot_pressed.bind("Chest Armor", "🎽"))
+	if armor_slot != null:
+		armor_slot.pressed.connect(_on_equipment_slot_pressed.bind("Armor", "👕"))
+	if boots_slot != null:
+		boots_slot.pressed.connect(_on_equipment_slot_pressed.bind("Boots", "🥾"))
+	if weapon_slot != null:
+		weapon_slot.pressed.connect(_on_equipment_slot_pressed.bind("Weapon", "⚔️"))
+	if necklace_slot != null:
+		necklace_slot.pressed.connect(_on_equipment_slot_pressed.bind("Necklace", "📿"))
+	if ring_slot != null:
+		ring_slot.pressed.connect(_on_equipment_slot_pressed.bind("Ring", "💍"))
+	if backpack_slot != null:
+		backpack_slot.pressed.connect(_on_equipment_slot_pressed.bind("Backpack", "🎒"))
+	if skill_slot != null:
+		skill_slot.pressed.connect(_on_equipment_slot_pressed.bind("Skill Card", "🃏"))
 	
-	# Connect navigation buttons
-	combat_btn.pressed.connect(_on_nav_pressed.bind("Combat"))
-	equipment_btn.pressed.connect(_on_nav_pressed.bind("Equipment"))
-	upgrades_btn.pressed.connect(_on_nav_pressed.bind("Upgrades"))
-	inventory_btn.pressed.connect(_on_nav_pressed.bind("Inventory"))
-	settings_btn.pressed.connect(_on_nav_pressed.bind("Settings"))
-	home_btn.pressed.connect(_on_nav_pressed.bind("Home"))
-	hero_btn.pressed.connect(_on_nav_pressed.bind("Hero"))
-	progress_btn.pressed.connect(_on_nav_pressed.bind("Progress"))
-	quests_btn.pressed.connect(_on_nav_pressed.bind("Quests"))
-	shop_btn.pressed.connect(_on_nav_pressed.bind("Shop"))
-	more_btn.pressed.connect(_on_nav_pressed.bind("More"))
+	# Connect navigation buttons with null checks
+	if combat_btn != null:
+		combat_btn.pressed.connect(_on_nav_pressed.bind("Combat"))
+	if equipment_btn != null:
+		equipment_btn.pressed.connect(_on_nav_pressed.bind("Equipment"))
+	if upgrades_btn != null:
+		upgrades_btn.pressed.connect(_on_nav_pressed.bind("Upgrades"))
+	if inventory_btn != null:
+		inventory_btn.pressed.connect(_on_nav_pressed.bind("Inventory"))
+	if settings_btn != null:
+		settings_btn.pressed.connect(_on_nav_pressed.bind("Settings"))
+	if home_btn != null:
+		home_btn.pressed.connect(_on_nav_pressed.bind("Home"))
+	if hero_btn != null:
+		hero_btn.pressed.connect(_on_nav_pressed.bind("Hero"))
+	if progress_btn != null:
+		progress_btn.pressed.connect(_on_nav_pressed.bind("Progress"))
+	if quests_btn != null:
+		quests_btn.pressed.connect(_on_nav_pressed.bind("Quests"))
+	if shop_btn != null:
+		shop_btn.pressed.connect(_on_nav_pressed.bind("Shop"))
+	if more_btn != null:
+		more_btn.pressed.connect(_on_nav_pressed.bind("More"))
 	
 	# Set Hero as active by default
-	_set_active_nav_button(hero_btn)
+	if hero_btn != null:
+		_set_active_nav_button(hero_btn)
 
 func update_player_stats(data):
 	player_data = data
 	
-	# Update top stats
-	health_value.text = str(data.get("max_hp", 100))
-	attack_value.text = str(data.get("damage", 15))
-	defense_value.text = str(data.get("defense", 5))  # We'll add defense later
-	mana_value.text = str(data.get("max_mp", 50))
+	# Update top stats with null checks
+	if health_value != null:
+		health_value.text = str(data.get("max_hp", 100))
+	if attack_value != null:
+		attack_value.text = str(data.get("damage", 15))
+	if defense_value != null:
+		defense_value.text = str(data.get("defense", 5))  # We'll add defense later
+	if mana_value != null:
+		mana_value.text = str(data.get("max_mp", 50))
 	
-	# Update character info
-	player_level.text = "LEVEL " + str(data.get("level", 1))
+	# Update character info with null checks
+	if player_level != null:
+		player_level.text = "LEVEL " + str(data.get("level", 1))
 	
 	# Calculate hero power (simple sum for now)
 	var hero_power = data.get("max_hp", 100) + (data.get("damage", 15) * 10) + (data.get("max_mp", 50) * 2)
-	power_value.text = str(hero_power)
+	if power_value != null:
+		power_value.text = str(hero_power)
 
 func _on_equipment_slot_pressed(slot_name: String, icon: String):
 	# Placeholder for equipment slot interaction
@@ -111,9 +137,11 @@ func _set_active_nav_button(active_button: Button):
 		home_btn, hero_btn, progress_btn, quests_btn, shop_btn, more_btn
 	]
 	for button in all_buttons:
-		button.modulate = Color.WHITE
-		button.flat = true
+		if button != null:
+			button.modulate = Color.WHITE
+			button.flat = true
 	
 	# Highlight active button
-	active_button.modulate = Color.CYAN
-	active_button.flat = false
+	if active_button != null:
+		active_button.modulate = Color.CYAN
+		active_button.flat = false

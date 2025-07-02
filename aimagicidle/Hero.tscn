@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bwqm4v5p6m1b"]
 
-[ext_resource type="Script" path="res://Hero.gd" id="1_hero_script"]
+[ext_resource type="Script" uid="uid://cfhtg52m73d44" path="res://Hero.gd" id="1_hero_script"]
 
 [node name="Hero" type="Control"]
 layout_mode = 3
@@ -29,9 +29,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TopStats" type="Panel" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_vertical = 0
-custom_minimum_size = Vector2(0, 60)
 
 [node name="StatsBackground" type="ColorRect" parent="MainContainer/TopStats"]
 layout_mode = 1
@@ -120,8 +120,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="EquipmentArea" type="Control" parent="MainContainer/HeroContent/ContentContainer"]
-layout_mode = 2
 custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
 
 [node name="LeftEquipment" type="VBoxContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea"]
 layout_mode = 1
@@ -135,8 +135,8 @@ offset_bottom = 200.0
 grow_vertical = 2
 
 [node name="ChestSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
-layout_mode = 2
 custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 text = "🎽"
 flat = true
 
@@ -152,12 +152,13 @@ offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
+grow_vertical = 0
 text = "+"
 horizontal_alignment = 1
 
 [node name="ArmorSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
-layout_mode = 2
 custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 text = "👕"
 flat = true
 
@@ -173,12 +174,13 @@ offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
+grow_vertical = 0
 text = "+"
 horizontal_alignment = 1
 
 [node name="BootsSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
-layout_mode = 2
 custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 text = "🥾"
 flat = true
 
@@ -194,12 +196,13 @@ offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
+grow_vertical = 0
 text = "+"
 horizontal_alignment = 1
 
 [node name="WeaponSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
-layout_mode = 2
 custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 text = "⚔️"
 flat = true
 
@@ -215,6 +218,7 @@ offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
+grow_vertical = 0
 text = "+"
 horizontal_alignment = 1
 
@@ -245,9 +249,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CharacterDisplay" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 200)
 
 [node name="CharacterBG" type="ColorRect" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/CharacterDisplay"]
 layout_mode = 1
@@ -306,8 +310,8 @@ grow_horizontal = 0
 grow_vertical = 2
 
 [node name="NecklaceSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
-layout_mode = 2
 custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 text = "📿"
 flat = true
 
@@ -323,12 +327,13 @@ offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
+grow_vertical = 0
 text = "+"
 horizontal_alignment = 1
 
 [node name="RingSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
-layout_mode = 2
 custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 text = "💍"
 flat = true
 
@@ -344,12 +349,13 @@ offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
+grow_vertical = 0
 text = "+"
 horizontal_alignment = 1
 
 [node name="BackpackSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
-layout_mode = 2
 custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 text = "🎒"
 flat = true
 
@@ -365,12 +371,13 @@ offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
+grow_vertical = 0
 text = "+"
 horizontal_alignment = 1
 
 [node name="SkillSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
-layout_mode = 2
 custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 text = "🃏"
 flat = true
 
@@ -386,13 +393,14 @@ offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
+grow_vertical = 0
 text = "+"
 horizontal_alignment = 1
 
 [node name="BottomNav" type="Panel" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 size_flags_vertical = 0
-custom_minimum_size = Vector2(0, 120)
 
 [node name="NavBackground" type="ColorRect" parent="MainContainer/BottomNav"]
 layout_mode = 1

@@ -41,34 +41,38 @@ var respawn_timer = 0.0
 var is_respawning = false
 
 # UI references
-@onready var level_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/Level
-@onready var xp_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/XPBar
-@onready var xp_bar_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/XPBar/XPLabel
-@onready var hp_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/HPBar
-@onready var hp_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/HPBar/HPLabel
-@onready var mp_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/MPBar
-@onready var mp_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/MPBar/MPLabel
-@onready var gold_label = $MainContainer/GameContent/VBoxContainer/PlayerStats/Gold
+@onready var level_label = $VBoxContainer/PlayerStats/Level
+@onready var xp_bar = $VBoxContainer/PlayerStats/XPBar
+@onready var xp_bar_label = $VBoxContainer/PlayerStats/XPBar/XPLabel
+@onready var hp_bar = $VBoxContainer/PlayerStats/HPBar
+@onready var hp_label = $VBoxContainer/PlayerStats/HPBar/HPLabel
+@onready var mp_bar = $VBoxContainer/PlayerStats/MPBar
+@onready var mp_label = $VBoxContainer/PlayerStats/MPBar/MPLabel
+@onready var gold_label = $VBoxContainer/PlayerStats/Gold
 
-@onready var player_attack_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/PlayerActions/AttackBar
-@onready var player_skill_bar = $MainContainer/GameContent/VBoxContainer/PlayerStats/PlayerActions/SkillBar
+@onready var player_attack_bar = $VBoxContainer/PlayerStats/PlayerActions/AttackBar
+@onready var player_attack_timer_label = $VBoxContainer/PlayerStats/PlayerActions/AttackTimer
+@onready var player_skill_bar = $VBoxContainer/PlayerStats/PlayerActions/SkillBar
+@onready var player_skill_timer_label = $VBoxContainer/PlayerStats/PlayerActions/SkillTimer
 
-@onready var enemy_name_label = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyName
-@onready var enemy_hp_bar = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyHPBar
-@onready var enemy_hp_label = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyHPBar/EnemyHPLabel
-@onready var enemy_attack_bar = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyActions/EnemyAttackBar
-@onready var enemy_skill_bar = $MainContainer/GameContent/VBoxContainer/EnemyInfo/EnemyActions/EnemySkillBar
-@onready var respawn_timer_label = $MainContainer/GameContent/VBoxContainer/EnemyInfo/RespawnTimer
+@onready var enemy_name_label = $VBoxContainer/EnemyInfo/EnemyName
+@onready var enemy_hp_bar = $VBoxContainer/EnemyInfo/EnemyHPBar
+@onready var enemy_hp_label = $VBoxContainer/EnemyInfo/EnemyHPBar/EnemyHPLabel
+@onready var enemy_attack_bar = $VBoxContainer/EnemyInfo/EnemyActions/EnemyAttackBar
+@onready var enemy_attack_timer_label = $VBoxContainer/EnemyInfo/EnemyActions/EnemyAttackTimer
+@onready var enemy_skill_bar = $VBoxContainer/EnemyInfo/EnemyActions/EnemySkillBar
+@onready var enemy_skill_timer_label = $VBoxContainer/EnemyInfo/EnemyActions/EnemySkillTimer
+@onready var respawn_timer_label = $VBoxContainer/EnemyInfo/RespawnTimer
 
-@onready var combat_log = $MainContainer/GameContent/VBoxContainer/CombatLog/ScrollContainer/LogText
-@onready var reward_text = $MainContainer/GameContent/VBoxContainer/LootDisplay/RewardText
+@onready var combat_log = $VBoxContainer/CombatLog/ScrollContainer/LogText
+@onready var reward_text = $VBoxContainer/LootDisplay/RewardText
 
-# Bottom navigation buttons
-@onready var combat_btn = $MainContainer/BottomNav/NavContainer/CombatBtn
-@onready var hero_btn = $MainContainer/BottomNav/NavContainer/HeroBtn
-@onready var inventory_btn = $MainContainer/BottomNav/NavContainer/InventoryBtn
-@onready var skills_btn = $MainContainer/BottomNav/NavContainer/SkillsBtn
-@onready var shop_btn = $MainContainer/BottomNav/NavContainer/ShopBtn
+# Bottom navigation buttons (these don't exist in the current scene)
+@onready var combat_btn = null
+@onready var hero_btn = null
+@onready var inventory_btn = null
+@onready var skills_btn = null
+@onready var shop_btn = null
 
 func _ready():
 	# Add to group so Hero panel can find this node
@@ -77,15 +81,8 @@ func _ready():
 	update_ui()
 	add_to_combat_log("[color=yellow]⚔️ Combat begins! Prepare for battle![/color]")
 	
-	# Connect bottom navigation buttons
-	combat_btn.pressed.connect(_on_combat_pressed)
-	hero_btn.pressed.connect(_on_hero_pressed)
-	inventory_btn.pressed.connect(_on_inventory_pressed)
-	skills_btn.pressed.connect(_on_skills_pressed)
-	shop_btn.pressed.connect(_on_shop_pressed)
-	
-	# Set Combat as default active button
-	_set_active_nav_button(combat_btn)
+	# Note: Bottom navigation buttons don't exist in the current scene structure
+	# Combat will start automatically
 	
 func _process(delta):
 	if is_respawning:
@@ -191,6 +188,7 @@ func enemy_died():
 	
 	add_to_combat_log("[color=green]💀 " + enemy_name + " is defeated![/color]")
 	add_to_combat_log("[color=yellow]💰 Gained " + str(xp_reward) + " XP and " + str(gold_reward) + " Gold![/color]")
+	add_to_combat_log("[color=cyan]🔄 New enemy will spawn in " + str(int(respawn_delay)) + " seconds...[/color]")
 	show_rewards(xp_reward, gold_reward)
 	
 	# Check for level up
@@ -202,8 +200,9 @@ func enemy_died():
 	update_ui()
 
 func show_rewards(xp_gain, gold_gain):
-	reward_text.text = "+" + str(xp_gain) + " XP, +" + str(gold_gain) + " Gold"
-	reward_text.modulate = Color.GREEN
+	if reward_text != null:
+		reward_text.text = "+" + str(xp_gain) + " XP, +" + str(gold_gain) + " Gold"
+		reward_text.modulate = Color.GREEN
 	
 	# Create a timer to clear the reward text after 3 seconds
 	var timer = Timer.new()
@@ -214,8 +213,9 @@ func show_rewards(xp_gain, gold_gain):
 	timer.start()
 
 func clear_reward_text():
-	reward_text.text = ""
-	reward_text.modulate = Color.GREEN
+	if reward_text != null:
+		reward_text.text = ""
+		reward_text.modulate = Color.GREEN
 
 func check_level_up():
 	while player_xp >= player_xp_needed:
@@ -261,146 +261,211 @@ func handle_respawn(delta):
 		update_ui()
 	else:
 		# Update respawn timer display
-		respawn_timer_label.text = "Next enemy in: " + str(int(ceil(respawn_timer))) + "s"
+		if respawn_timer_label != null:
+			respawn_timer_label.text = "🔄 New enemy spawning in: " + str(int(ceil(respawn_timer))) + "s"
 
 func update_ui():
-	# Player stats
-	level_label.text = "Level: " + str(player_level)
-	gold_label.text = "Gold: " + str(player_gold)
+	# Player stats with null checks
+	if level_label != null:
+		level_label.text = "Level: " + str(player_level)
+	if gold_label != null:
+		gold_label.text = "Gold: " + str(player_gold)
 	
-	# XP progress bar
-	xp_bar.max_value = player_xp_needed
-	xp_bar.value = player_xp
-	xp_bar_label.text = "XP: " + str(player_xp) + " / " + str(player_xp_needed)
+	# XP progress bar with null checks
+	if xp_bar != null:
+		xp_bar.max_value = player_xp_needed
+		xp_bar.value = player_xp
+	if xp_bar_label != null:
+		xp_bar_label.text = "XP: " + str(player_xp) + " / " + str(player_xp_needed)
 	
-	# HP bar
-	hp_bar.max_value = player_max_hp
-	hp_bar.value = player_hp
-	hp_label.text = "HP: " + str(player_hp) + " / " + str(player_max_hp)
+	# HP bar with null checks
+	if hp_bar != null:
+		hp_bar.max_value = player_max_hp
+		hp_bar.value = player_hp
+	if hp_label != null:
+		hp_label.text = "HP: " + str(int(player_hp)) + " / " + str(player_max_hp)
 	
-	# MP bar
-	mp_bar.max_value = player_max_mp
-	mp_bar.value = player_mp
-	mp_label.text = "MP: " + str(player_mp) + " / " + str(player_max_mp)
+	# MP bar with null checks
+	if mp_bar != null:
+		mp_bar.max_value = player_max_mp
+		mp_bar.value = player_mp
+	if mp_label != null:
+		mp_label.text = "MP: " + str(int(player_mp)) + " / " + str(player_max_mp)
 	
-	# Player action progress bars
-	player_attack_bar.max_value = player_attack_cooldown
-	player_attack_bar.value = player_attack_timer
+	# Player action progress bars with null checks
+	if player_attack_bar != null:
+		player_attack_bar.max_value = player_attack_cooldown
+		player_attack_bar.value = player_attack_timer
 	
-	player_skill_bar.max_value = player_skill_cooldown
-	player_skill_bar.value = player_skill_timer
+	# Player attack timer display
+	if player_attack_timer_label != null:
+		if player_attack_timer >= player_attack_cooldown:
+			player_attack_timer_label.text = "Ready!"
+		else:
+			var remaining = player_attack_cooldown - player_attack_timer
+			player_attack_timer_label.text = str(int(ceil(remaining))) + "s"
 	
-	# Enemy info
+	if player_skill_bar != null:
+		player_skill_bar.max_value = player_skill_cooldown
+		player_skill_bar.value = player_skill_timer
+	
+	# Player skill timer display
+	if player_skill_timer_label != null:
+		if player_skill_timer >= player_skill_cooldown and player_mp >= 10:
+			player_skill_timer_label.text = "Ready!"
+		elif player_mp < 10:
+			player_skill_timer_label.text = "No MP"
+		else:
+			var remaining = player_skill_cooldown - player_skill_timer
+			player_skill_timer_label.text = str(int(ceil(remaining))) + "s"
+	
+			# Enemy info with null checks
 	if enemy_alive:
-		enemy_name_label.text = enemy_name + " Lv." + str(enemy_level)
-		enemy_hp_bar.max_value = enemy_max_hp
-		enemy_hp_bar.value = enemy_hp
-		enemy_hp_label.text = "HP: " + str(enemy_hp) + " / " + str(enemy_max_hp)
-		respawn_timer_label.text = ""
+		if enemy_name_label != null:
+			enemy_name_label.text = enemy_name + " Lv." + str(enemy_level)
+		if enemy_hp_bar != null:
+			enemy_hp_bar.max_value = enemy_max_hp
+			enemy_hp_bar.value = enemy_hp
+		if enemy_hp_label != null:
+			enemy_hp_label.text = "HP: " + str(int(enemy_hp)) + " / " + str(enemy_max_hp)
+		if respawn_timer_label != null:
+			respawn_timer_label.text = ""
 		
-		# Enemy action progress bars
-		enemy_attack_bar.max_value = enemy_attack_cooldown
-		enemy_attack_bar.value = enemy_attack_timer
+		# Enemy action progress bars with null checks
+		if enemy_attack_bar != null:
+			enemy_attack_bar.max_value = enemy_attack_cooldown
+			enemy_attack_bar.value = enemy_attack_timer
 		
-		enemy_skill_bar.max_value = enemy_skill_cooldown
-		enemy_skill_bar.value = enemy_skill_timer
+		# Enemy attack timer display
+		if enemy_attack_timer_label != null:
+			if enemy_attack_timer >= enemy_attack_cooldown:
+				enemy_attack_timer_label.text = "Ready!"
+			else:
+				var remaining = enemy_attack_cooldown - enemy_attack_timer
+				enemy_attack_timer_label.text = str(int(ceil(remaining))) + "s"
+		
+		if enemy_skill_bar != null:
+			enemy_skill_bar.max_value = enemy_skill_cooldown
+			enemy_skill_bar.value = enemy_skill_timer
+		
+		# Enemy skill timer display
+		if enemy_skill_timer_label != null:
+			if enemy_skill_timer >= enemy_skill_cooldown:
+				enemy_skill_timer_label.text = "Ready!"
+			else:
+				var remaining = enemy_skill_cooldown - enemy_skill_timer
+				enemy_skill_timer_label.text = str(int(ceil(remaining))) + "s"
 	else:
-		enemy_name_label.text = enemy_name + " (Dead)"
-		enemy_hp_bar.value = 0
-		enemy_hp_label.text = "HP: 0 / " + str(enemy_max_hp)
+		if enemy_name_label != null:
+			enemy_name_label.text = enemy_name + " (Dead)"
+		if enemy_hp_bar != null:
+			enemy_hp_bar.value = 0
+		if enemy_hp_label != null:
+			enemy_hp_label.text = "HP: 0 / " + str(enemy_max_hp)
 		
-		# Reset enemy action bars when dead
-		enemy_attack_bar.value = 0
-		enemy_skill_bar.value = 0
+		# Reset enemy action bars when dead with null checks
+		if enemy_attack_bar != null:
+			enemy_attack_bar.value = 0
+		if enemy_skill_bar != null:
+			enemy_skill_bar.value = 0
+		
+		# Enemy timers when dead
+		if enemy_attack_timer_label != null:
+			enemy_attack_timer_label.text = "Dead"
+		if enemy_skill_timer_label != null:
+			enemy_skill_timer_label.text = "Dead"
 
 func add_to_combat_log(message):
-	combat_log.append_text(message + "\n")
-	
-	# Limit log lines to prevent memory issues
-	var lines = combat_log.get_parsed_text().split("\n")
-	if lines.size() > 50:
-		var limited_text = ""
-		for i in range(lines.size() - 40, lines.size()):
-			if i < lines.size():
-				limited_text += lines[i] + "\n"
-		combat_log.text = limited_text
-
-# Bottom Navigation Functions
-func _set_active_nav_button(active_button: Button):
-	# Reset all buttons to normal state
-	var buttons = [combat_btn, hero_btn, inventory_btn, skills_btn, shop_btn]
-	for button in buttons:
-		button.modulate = Color.WHITE
-		button.flat = true
-	
-	# Highlight active button
-	active_button.modulate = Color.CYAN
-	active_button.flat = false
-
-func _on_combat_pressed():
-	_set_active_nav_button(combat_btn)
-	add_to_combat_log("[color=cyan]📊 Combat view is already active![/color]")
-
-func _on_hero_pressed():
-	switch_to_hero_view()
-
-func _on_inventory_pressed():
-	_set_active_nav_button(inventory_btn)
-	add_to_combat_log("[color=cyan]🎒 Inventory - Coming Soon! (Items, weapons, armor, consumables)[/color]")
-
-func _on_skills_pressed():
-	_set_active_nav_button(skills_btn)
-	add_to_combat_log("[color=cyan]⭐ Skills - Coming Soon! (Skill tree, upgrades, talents)[/color]")
-
-func _on_shop_pressed():
-	_set_active_nav_button(shop_btn)
-	add_to_combat_log("[color=cyan]🏪 Shop - Coming Soon! (Buy weapons, armor, items with gold)[/color]")
-
-# View switching functions
-func switch_to_hero_view():
-	if current_view == "hero":
-		return
+	if combat_log != null:
+		combat_log.append_text(message + "\n")
 		
-	current_view = "hero"
-	
-	# Hide combat UI
-	get_node("MainContainer/GameContent").visible = false
-	get_node("MainContainer/BottomNav").visible = false
-	
-	# Create and show hero panel if it doesn't exist
-	if hero_instance == null:
-		hero_instance = hero_scene.instantiate()
-		add_child(hero_instance)
-	
-	hero_instance.visible = true
-	
-	# Update hero panel with current player stats
-	var player_data = {
-		"level": player_level,
-		"max_hp": player_max_hp,
-		"damage": player_damage,
-		"defense": 5,  # We'll add this stat later
-		"max_mp": player_max_mp
-	}
-	hero_instance.update_player_stats(player_data)
-	
-	add_to_combat_log("[color=cyan]👤 Switched to Hero Panel[/color]")
+		# Limit log lines to prevent memory issues
+		var lines = combat_log.get_parsed_text().split("\n")
+		if lines.size() > 50:
+			var limited_text = ""
+			for i in range(lines.size() - 40, lines.size()):
+				if i < lines.size():
+					limited_text += lines[i] + "\n"
+			combat_log.text = limited_text
 
-func switch_to_combat_view():
-	if current_view == "combat":
-		return
-		
-	current_view = "combat"
-	
-	# Hide hero panel
-	if hero_instance != null:
-		hero_instance.visible = false
-	
-	# Show combat UI
-	get_node("MainContainer/GameContent").visible = true
-	get_node("MainContainer/BottomNav").visible = true
-	
-	# Set combat as active button
-	_set_active_nav_button(combat_btn)
-	
-	add_to_combat_log("[color=cyan]⚔️ Switched to Combat View[/color]")
+# Bottom Navigation Functions (commented out - navigation doesn't exist in current scene)
+# func _set_active_nav_button(active_button: Button):
+# 	# Reset all buttons to normal state
+# 	var buttons = [combat_btn, hero_btn, inventory_btn, skills_btn, shop_btn]
+# 	for button in buttons:
+# 		if button != null:
+# 			button.modulate = Color.WHITE
+# 			button.flat = true
+# 	
+# 	# Highlight active button
+# 	if active_button != null:
+# 		active_button.modulate = Color.CYAN
+# 		active_button.flat = false
+
+# func _on_combat_pressed():
+# 	_set_active_nav_button(combat_btn)
+# 	add_to_combat_log("[color=cyan]📊 Combat view is already active![/color]")
+
+# func _on_hero_pressed():
+# 	switch_to_hero_view()
+
+# func _on_inventory_pressed():
+# 	_set_active_nav_button(inventory_btn)
+# 	add_to_combat_log("[color=cyan]🎒 Inventory - Coming Soon! (Items, weapons, armor, consumables)[/color]")
+
+# func _on_skills_pressed():
+# 	_set_active_nav_button(skills_btn)
+# 	add_to_combat_log("[color=cyan]⭐ Skills - Coming Soon! (Skill tree, upgrades, talents)[/color]")
+
+# func _on_shop_pressed():
+# 	_set_active_nav_button(shop_btn)
+# 	add_to_combat_log("[color=cyan]🏪 Shop - Coming Soon! (Buy weapons, armor, items with gold)[/color]")
+
+# View switching functions (commented out - navigation doesn't exist in current scene)
+# func switch_to_hero_view():
+# 	if current_view == "hero":
+# 		return
+# 		
+# 	current_view = "hero"
+# 	
+# 	# Hide combat UI
+# 	get_node("MainContainer/GameContent").visible = false
+# 	get_node("MainContainer/BottomNav").visible = false
+# 	
+# 	# Create and show hero panel if it doesn't exist
+# 	if hero_instance == null:
+# 		hero_instance = hero_scene.instantiate()
+# 		add_child(hero_instance)
+# 	
+# 	hero_instance.visible = true
+# 	
+# 	# Update hero panel with current player stats
+# 	var player_data = {
+# 		"level": player_level,
+# 		"max_hp": player_max_hp,
+# 		"damage": player_damage,
+# 		"defense": 5,  # We'll add this stat later
+# 		"max_mp": player_max_mp
+# 	}
+# 	hero_instance.update_player_stats(player_data)
+# 	
+# 	add_to_combat_log("[color=cyan]👤 Switched to Hero Panel[/color]")
+
+# func switch_to_combat_view():
+# 	if current_view == "combat":
+# 		return
+# 		
+# 	current_view = "combat"
+# 	
+# 	# Hide hero panel
+# 	if hero_instance != null:
+# 		hero_instance.visible = false
+# 	
+# 	# Show combat UI
+# 	get_node("MainContainer/GameContent").visible = true
+# 	get_node("MainContainer/BottomNav").visible = true
+# 	
+# 	# Set combat as active button
+# 	_set_active_nav_button(combat_btn)
+# 	
+# 	add_to_combat_log("[color=cyan]⚔️ Switched to Combat View[/color]")
