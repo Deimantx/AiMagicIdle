@@ -1,0 +1,501 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwqm4v5p6m1b"]
+
+[ext_resource type="Script" path="res://Hero.gd" id="1_hero_script"]
+
+[node name="Hero" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hero_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopStats" type="Panel" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+custom_minimum_size = Vector2(0, 60)
+
+[node name="StatsBackground" type="ColorRect" parent="MainContainer/TopStats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.25, 0.9)
+
+[node name="StatsContainer" type="HBoxContainer" parent="MainContainer/TopStats"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthStat" type="HBoxContainer" parent="MainContainer/TopStats/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HealthIcon" type="Label" parent="MainContainer/TopStats/StatsContainer/HealthStat"]
+layout_mode = 2
+text = "❤️"
+vertical_alignment = 1
+
+[node name="HealthValue" type="Label" parent="MainContainer/TopStats/StatsContainer/HealthStat"]
+layout_mode = 2
+text = "4298"
+vertical_alignment = 1
+
+[node name="AttackStat" type="HBoxContainer" parent="MainContainer/TopStats/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AttackIcon" type="Label" parent="MainContainer/TopStats/StatsContainer/AttackStat"]
+layout_mode = 2
+text = "⚔️"
+vertical_alignment = 1
+
+[node name="AttackValue" type="Label" parent="MainContainer/TopStats/StatsContainer/AttackStat"]
+layout_mode = 2
+text = "1478"
+vertical_alignment = 1
+
+[node name="DefenseStat" type="HBoxContainer" parent="MainContainer/TopStats/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DefenseIcon" type="Label" parent="MainContainer/TopStats/StatsContainer/DefenseStat"]
+layout_mode = 2
+text = "🛡️"
+vertical_alignment = 1
+
+[node name="DefenseValue" type="Label" parent="MainContainer/TopStats/StatsContainer/DefenseStat"]
+layout_mode = 2
+text = "131"
+vertical_alignment = 1
+
+[node name="ManaStat" type="HBoxContainer" parent="MainContainer/TopStats/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ManaIcon" type="Label" parent="MainContainer/TopStats/StatsContainer/ManaStat"]
+layout_mode = 2
+text = "💙"
+vertical_alignment = 1
+
+[node name="ManaValue" type="Label" parent="MainContainer/TopStats/StatsContainer/ManaStat"]
+layout_mode = 2
+text = "1350"
+vertical_alignment = 1
+
+[node name="HeroContent" type="ScrollContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ContentContainer" type="VBoxContainer" parent="MainContainer/HeroContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="EquipmentArea" type="Control" parent="MainContainer/HeroContent/ContentContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 500)
+
+[node name="LeftEquipment" type="VBoxContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -200.0
+offset_right = 100.0
+offset_bottom = 200.0
+grow_vertical = 2
+
+[node name="ChestSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+text = "🎽"
+flat = true
+
+[node name="ChestLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment/ChestSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "+"
+horizontal_alignment = 1
+
+[node name="ArmorSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+text = "👕"
+flat = true
+
+[node name="ArmorLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment/ArmorSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "+"
+horizontal_alignment = 1
+
+[node name="BootsSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+text = "🥾"
+flat = true
+
+[node name="BootsLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment/BootsSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "+"
+horizontal_alignment = 1
+
+[node name="WeaponSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+text = "⚔️"
+flat = true
+
+[node name="WeaponLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment/WeaponSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "+"
+horizontal_alignment = 1
+
+[node name="CenterArea" type="VBoxContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -150.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerName" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
+layout_mode = 2
+text = "ADVENTURER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerLevel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
+layout_mode = 2
+text = "LEVEL 5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CharacterDisplay" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
+layout_mode = 2
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 200)
+
+[node name="CharacterBG" type="ColorRect" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/CharacterDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3, 0.3, 0.4, 0.5)
+
+[node name="CharacterSprite" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/CharacterDisplay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "🧙‍♂️"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PowerDisplay" type="VBoxContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
+layout_mode = 2
+
+[node name="PowerLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/PowerDisplay"]
+layout_mode = 2
+text = "HERO POWER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PowerValue" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/PowerDisplay"]
+layout_mode = 2
+text = "8,437"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightEquipment" type="VBoxContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -200.0
+offset_right = -20.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="NecklaceSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+text = "📿"
+flat = true
+
+[node name="NecklaceLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment/NecklaceSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "+"
+horizontal_alignment = 1
+
+[node name="RingSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+text = "💍"
+flat = true
+
+[node name="RingLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment/RingSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "+"
+horizontal_alignment = 1
+
+[node name="BackpackSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+text = "🎒"
+flat = true
+
+[node name="BackpackLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment/BackpackSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "+"
+horizontal_alignment = 1
+
+[node name="SkillSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 80)
+text = "🃏"
+flat = true
+
+[node name="SkillLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment/SkillSlot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "+"
+horizontal_alignment = 1
+
+[node name="BottomNav" type="Panel" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+custom_minimum_size = Vector2(0, 120)
+
+[node name="NavBackground" type="ColorRect" parent="MainContainer/BottomNav"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.2, 0.9)
+
+[node name="NavContainer" type="VBoxContainer" parent="MainContainer/BottomNav"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopRow" type="HBoxContainer" parent="MainContainer/BottomNav/NavContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CombatBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⚔️
+Combat"
+flat = true
+
+[node name="EquipmentBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🛡️
+Equipment"
+flat = true
+
+[node name="UpgradesBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "💎
+Upgrades"
+flat = true
+
+[node name="InventoryBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🎒
+Inventory"
+flat = true
+
+[node name="SettingsBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⚙️
+Settings"
+flat = true
+
+[node name="BottomRow" type="HBoxContainer" parent="MainContainer/BottomNav/NavContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HomeBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🏠
+Home"
+flat = true
+
+[node name="HeroBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "👤
+Hero"
+flat = true
+
+[node name="ProgressBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "📈
+Progress"
+flat = true
+
+[node name="QuestsBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🎯
+Quests"
+flat = true
+
+[node name="ShopBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🏪
+Shop"
+flat = true
+
+[node name="MoreBtn" type="Button" parent="MainContainer/BottomNav/NavContainer/BottomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⋯
+More"
+flat = true

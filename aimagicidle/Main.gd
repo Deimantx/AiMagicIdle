@@ -1,5 +1,10 @@
 extends Control
 
+# Scene management
+@onready var hero_scene = preload("res://Hero.tscn")
+var hero_instance = null
+var current_view = "combat"  # "combat" or "hero"
+
 # Player stats
 var player_level = 1
 var player_xp = 0
@@ -66,6 +71,9 @@ var is_respawning = false
 @onready var shop_btn = $MainContainer/BottomNav/NavContainer/ShopBtn
 
 func _ready():
+	# Add to group so Hero panel can find this node
+	add_to_group("main")
+	
 	update_ui()
 	add_to_combat_log("[color=yellow]⚔️ Combat begins! Prepare for battle![/color]")
 	
@@ -334,8 +342,7 @@ func _on_combat_pressed():
 	add_to_combat_log("[color=cyan]📊 Combat view is already active![/color]")
 
 func _on_hero_pressed():
-	_set_active_nav_button(hero_btn)
-	add_to_combat_log("[color=cyan]🛡️ Hero Panel - Coming Soon! (Character stats, equipment, abilities)[/color]")
+	switch_to_hero_view()
 
 func _on_inventory_pressed():
 	_set_active_nav_button(inventory_btn)
@@ -348,3 +355,52 @@ func _on_skills_pressed():
 func _on_shop_pressed():
 	_set_active_nav_button(shop_btn)
 	add_to_combat_log("[color=cyan]🏪 Shop - Coming Soon! (Buy weapons, armor, items with gold)[/color]")
+
+# View switching functions
+func switch_to_hero_view():
+	if current_view == "hero":
+		return
+		
+	current_view = "hero"
+	
+	# Hide combat UI
+	get_node("MainContainer/GameContent").visible = false
+	get_node("MainContainer/BottomNav").visible = false
+	
+	# Create and show hero panel if it doesn't exist
+	if hero_instance == null:
+		hero_instance = hero_scene.instantiate()
+		add_child(hero_instance)
+	
+	hero_instance.visible = true
+	
+	# Update hero panel with current player stats
+	var player_data = {
+		"level": player_level,
+		"max_hp": player_max_hp,
+		"damage": player_damage,
+		"defense": 5,  # We'll add this stat later
+		"max_mp": player_max_mp
+	}
+	hero_instance.update_player_stats(player_data)
+	
+	add_to_combat_log("[color=cyan]👤 Switched to Hero Panel[/color]")
+
+func switch_to_combat_view():
+	if current_view == "combat":
+		return
+		
+	current_view = "combat"
+	
+	# Hide hero panel
+	if hero_instance != null:
+		hero_instance.visible = false
+	
+	# Show combat UI
+	get_node("MainContainer/GameContent").visible = true
+	get_node("MainContainer/BottomNav").visible = true
+	
+	# Set combat as active button
+	_set_active_nav_button(combat_btn)
+	
+	add_to_combat_log("[color=cyan]⚔️ Switched to Combat View[/color]")
