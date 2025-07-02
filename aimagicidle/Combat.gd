@@ -129,6 +129,31 @@ var current_view = "combat"
 @onready var more_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/MoreBtn
 
 func _ready():
+	# Load player data from Global script
+	player_level = Global.get_game_data("player_level", 1)
+	player_xp = Global.get_game_data("player_xp", 0)
+	player_xp_needed = Global.get_game_data("player_xp_needed", 100)
+	player_hp = Global.get_game_data("player_hp", 100)
+	player_max_hp = Global.get_game_data("player_max_hp", 100)
+	player_mp = Global.get_game_data("player_mp", 50)
+	player_max_mp = Global.get_game_data("player_max_mp", 50)
+	player_gold = Global.get_game_data("player_gold", 0)
+	player_skill_points = Global.get_game_data("player_skill_points", 0)
+	player_str = Global.get_game_data("player_str", 5)
+	player_agi = Global.get_game_data("player_agi", 5)
+	player_int = Global.get_game_data("player_int", 5)
+	player_vit = Global.get_game_data("player_vit", 5)
+	player_spr = Global.get_game_data("player_spr", 5)
+	current_location = Global.get_game_data("current_location", "Forest")
+	# Setup dropdowns
+	if location_dropdown != null:
+		location_dropdown.item_selected.connect(_on_location_selected)
+		_setup_location_dropdown()
+	if monster_dropdown != null:
+		monster_dropdown.item_selected.connect(_on_monster_selected)
+		_setup_monster_dropdown()
+	if monster_dropdown != null:
+		monster_dropdown.selected = Global.get_game_data("monster_selected", 0)
 	# Calculate initial player stats
 	calculate_player_stats()
 	
@@ -158,14 +183,6 @@ func _ready():
 	
 	# Set combat as active button
 	_set_active_nav_button(combat_btn)
-	
-	# Setup dropdowns
-	if location_dropdown != null:
-		location_dropdown.item_selected.connect(_on_location_selected)
-		_setup_location_dropdown()
-	if monster_dropdown != null:
-		monster_dropdown.item_selected.connect(_on_monster_selected)
-		_setup_monster_dropdown()
 
 func calculate_player_stats():
 	# Base stats
@@ -325,15 +342,15 @@ func check_level_up():
 	while player_xp >= player_xp_needed:
 		player_xp -= player_xp_needed
 		player_level += 1
-		
-		# Give skill point on level up
 		player_skill_points += 1
-		
-		# Increase XP needed for next level
 		player_xp_needed = player_level * 100
-		
 		add_to_combat_log("[color=gold]⭐ LEVEL UP! Now level " + str(player_level) + "! You gained 1 Skill Point![/color]")
 		add_to_combat_log("[color=cyan]💡 Use the Hero panel to spend your skill points![/color]")
+		# Save to Global script
+		Global.set_game_data("player_level", player_level)
+		Global.set_game_data("player_xp", player_xp)
+		Global.set_game_data("player_xp_needed", player_xp_needed)
+		Global.set_game_data("player_skill_points", player_skill_points)
 
 func start_respawn():
 	is_respawning = true
@@ -415,30 +432,30 @@ func spawn_specific_monster(monster_name: String):
 func update_ui():
 	# Player stats with null checks
 	if level_label != null:
-		level_label.text = "Level: " + str(player_level)
+		level_label.text = "Level: " + str(int(player_level))
 	if gold_label != null:
-		gold_label.text = "Gold: " + str(player_gold)
+		gold_label.text = "Gold: " + str(int(player_gold))
 	
 	# XP progress bar with null checks
 	if xp_bar != null:
-		xp_bar.max_value = player_xp_needed
-		xp_bar.value = player_xp
+		xp_bar.max_value = int(player_xp_needed)
+		xp_bar.value = int(player_xp)
 	if xp_bar_label != null:
-		xp_bar_label.text = "XP: " + str(player_xp) + " / " + str(player_xp_needed)
+		xp_bar_label.text = "XP: " + str(int(player_xp)) + " / " + str(int(player_xp_needed))
 	
 	# HP bar with null checks
 	if hp_bar != null:
-		hp_bar.max_value = player_max_hp
-		hp_bar.value = player_hp
+		hp_bar.max_value = int(player_max_hp)
+		hp_bar.value = int(player_hp)
 	if hp_label != null:
-		hp_label.text = "HP: " + str(int(player_hp)) + " / " + str(player_max_hp)
+		hp_label.text = "HP: " + str(int(player_hp)) + " / " + str(int(player_max_hp))
 	
 	# MP bar with null checks
 	if mp_bar != null:
-		mp_bar.max_value = player_max_mp
-		mp_bar.value = player_mp
+		mp_bar.max_value = int(player_max_mp)
+		mp_bar.value = int(player_mp)
 	if mp_label != null:
-		mp_label.text = "MP: " + str(int(player_mp)) + " / " + str(player_max_mp)
+		mp_label.text = "MP: " + str(int(player_mp)) + " / " + str(int(player_max_mp))
 	
 	# Player action progress bars with null checks
 	if player_attack_bar != null:
@@ -476,12 +493,12 @@ func update_ui():
 	# Enemy info with null checks
 	if enemy_alive:
 		if enemy_name_label != null:
-			enemy_name_label.text = enemy_name + " Lv." + str(enemy_level)
+			enemy_name_label.text = enemy_name + " Lv." + str(int(enemy_level))
 		if enemy_hp_bar != null:
-			enemy_hp_bar.max_value = enemy_max_hp
-			enemy_hp_bar.value = enemy_hp
+			enemy_hp_bar.max_value = int(enemy_max_hp)
+			enemy_hp_bar.value = int(enemy_hp)
 		if enemy_hp_label != null:
-			enemy_hp_label.text = "HP: " + str(int(enemy_hp)) + " / " + str(enemy_max_hp)
+			enemy_hp_label.text = "HP: " + str(int(enemy_hp)) + " / " + str(int(enemy_max_hp))
 		if respawn_timer_label != null:
 			respawn_timer_label.text = ""
 		
@@ -520,7 +537,7 @@ func update_ui():
 		if enemy_hp_bar != null:
 			enemy_hp_bar.value = 0
 		if enemy_hp_label != null:
-			enemy_hp_label.text = "HP: 0 / " + str(enemy_max_hp)
+			enemy_hp_label.text = "HP: 0 / " + str(int(enemy_max_hp))
 		
 		# Reset enemy action bars when dead with null checks
 		if enemy_attack_bar != null:
@@ -563,7 +580,6 @@ func _set_active_nav_button(active_button: Button):
 
 func _on_combat_pressed():
 	_set_active_nav_button(combat_btn)
-	add_to_combat_log("[color=cyan]📊 Combat view is already active![/color]")
 
 func _on_hero_pressed():
 	switch_to_hero_view()
@@ -642,72 +658,51 @@ func _setup_monster_dropdown():
 func _on_location_selected(index):
 	var locations = ["Forest", "Mine", "Outskirts"]
 	current_location = locations[index]
-	
-	# Update monster dropdown for new location
 	_setup_monster_dropdown()
-	
 	add_to_combat_log("[color=green]📍 Switched to " + current_location + " location[/color]")
 	if enemy_alive:
 		add_to_combat_log("[color=yellow]⚠️ Current enemy will remain until defeated[/color]")
+	# Save to Global script
+	Global.set_game_data("current_location", current_location)
 
 func _on_monster_selected(index):
-	# Get monster name from dropdown
 	var monster_name = monster_dropdown.get_item_text(index)
-	
-	# Instantly switch to the selected monster
 	spawn_specific_monster(monster_name)
 	add_to_combat_log("[color=blue]🎯 Switched to " + monster_name + "![/color]")
+	# Save to Global script
+	Global.set_game_data("monster_selected", monster_dropdown.selected)
 
 # View switching functions
 func switch_to_hero_view():
 	if current_view == "hero":
 		return
-		
 	current_view = "hero"
-	
-	# Hide combat UI (keep bottom nav visible)
 	get_node("VBoxContainer/PlayerStats").visible = false
 	get_node("VBoxContainer/EnemyInfo").visible = false
 	get_node("VBoxContainer/CombatLog").visible = false
 	get_node("VBoxContainer/LootDisplay").visible = false
-	
-	# Create and show hero panel if it doesn't exist
 	if hero_instance == null:
 		hero_instance = hero_scene.instantiate()
 		add_child(hero_instance)
-	
 	hero_instance.visible = true
-	
-	# Update hero panel with current player stats
 	var player_data = {
 		"level": player_level,
 		"max_hp": player_max_hp,
 		"damage": player_damage,
-		"defense": 5,  # We'll add this stat later
+		"defense": 5,
 		"max_mp": player_max_mp,
 		"skill_points": player_skill_points
 	}
 	hero_instance.update_player_stats(player_data)
-	
-	add_to_combat_log("[color=cyan]👤 Switched to Hero Panel[/color]")
 
 func switch_to_combat_view():
 	if current_view == "combat":
 		return
-		
 	current_view = "combat"
-	
-	# Hide hero panel
 	if hero_instance != null:
 		hero_instance.visible = false
-	
-	# Show combat UI
 	get_node("VBoxContainer/PlayerStats").visible = true
 	get_node("VBoxContainer/EnemyInfo").visible = true
 	get_node("VBoxContainer/CombatLog").visible = true
 	get_node("VBoxContainer/LootDisplay").visible = true
-	
-	# Set combat as active button
-	_set_active_nav_button(combat_btn)
-	
-	add_to_combat_log("[color=cyan]⚔️ Switched to Combat View[/color]") 
+	_set_active_nav_button(combat_btn) 
