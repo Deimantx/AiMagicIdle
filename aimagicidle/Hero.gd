@@ -140,13 +140,10 @@ func _on_equipment_slot_pressed(slot_name: String, icon: String):
 
 func _on_nav_pressed(nav_name: String):
 	if nav_name == "Combat":
-		# Find the Main node and switch to combat view
-		var main_node = get_tree().get_first_node_in_group("main")
-		if main_node == null:
-			# Try alternative method
-			main_node = get_node("/root/Main/Main") 
-		if main_node != null:
-			main_node.switch_to_combat_view()
+		# Switch to combat view by calling parent (Combat scene)
+		var parent = get_parent()
+		if parent != null and parent.has_method("switch_to_combat_view"):
+			parent.switch_to_combat_view()
 	elif nav_name == "Hero":
 		# Already on hero view
 		print("Already on Hero view")
