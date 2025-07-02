@@ -37,16 +37,22 @@ var is_respawning = false
 
 # UI references
 @onready var level_label = $VBoxContainer/PlayerStats/Level
-@onready var xp_label = $VBoxContainer/PlayerStats/XP
+@onready var xp_bar = $VBoxContainer/PlayerStats/XPBar
+@onready var xp_bar_label = $VBoxContainer/PlayerStats/XPBar/XPLabel
 @onready var hp_bar = $VBoxContainer/PlayerStats/HPBar
 @onready var hp_label = $VBoxContainer/PlayerStats/HPBar/HPLabel
 @onready var mp_bar = $VBoxContainer/PlayerStats/MPBar
 @onready var mp_label = $VBoxContainer/PlayerStats/MPBar/MPLabel
 @onready var gold_label = $VBoxContainer/PlayerStats/Gold
 
+@onready var player_attack_bar = $VBoxContainer/PlayerStats/PlayerActions/AttackBar
+@onready var player_skill_bar = $VBoxContainer/PlayerStats/PlayerActions/SkillBar
+
 @onready var enemy_name_label = $VBoxContainer/EnemyInfo/EnemyName
 @onready var enemy_hp_bar = $VBoxContainer/EnemyInfo/EnemyHPBar
 @onready var enemy_hp_label = $VBoxContainer/EnemyInfo/EnemyHPBar/EnemyHPLabel
+@onready var enemy_attack_bar = $VBoxContainer/EnemyInfo/EnemyActions/EnemyAttackBar
+@onready var enemy_skill_bar = $VBoxContainer/EnemyInfo/EnemyActions/EnemySkillBar
 @onready var respawn_timer_label = $VBoxContainer/EnemyInfo/RespawnTimer
 
 @onready var combat_log = $VBoxContainer/CombatLog/ScrollContainer/LogText
@@ -61,6 +67,9 @@ func _process(delta):
 		handle_respawn(delta)
 	elif enemy_alive:
 		handle_combat(delta)
+	
+	# Update UI every frame to show progress bars
+	update_ui()
 
 func handle_combat(delta):
 	# Player attack timer
@@ -74,6 +83,10 @@ func handle_combat(delta):
 	if player_skill_timer >= player_skill_cooldown and player_mp >= 10:
 		player_cast_fireball()
 		player_skill_timer = 0.0
+	
+	# MP regeneration (1 MP per second)
+	if player_mp < player_max_mp:
+		player_mp = min(player_max_mp, player_mp + delta)
 	
 	# Enemy attack timer
 	enemy_attack_timer += delta
@@ -227,8 +240,12 @@ func handle_respawn(delta):
 func update_ui():
 	# Player stats
 	level_label.text = "Level: " + str(player_level)
-	xp_label.text = "XP: " + str(player_xp) + " / " + str(player_xp_needed)
 	gold_label.text = "Gold: " + str(player_gold)
+	
+	# XP progress bar
+	xp_bar.max_value = player_xp_needed
+	xp_bar.value = player_xp
+	xp_bar_label.text = "XP: " + str(player_xp) + " / " + str(player_xp_needed)
 	
 	# HP bar
 	hp_bar.max_value = player_max_hp
@@ -240,6 +257,13 @@ func update_ui():
 	mp_bar.value = player_mp
 	mp_label.text = "MP: " + str(player_mp) + " / " + str(player_max_mp)
 	
+	# Player action progress bars
+	player_attack_bar.max_value = player_attack_cooldown
+	player_attack_bar.value = player_attack_timer
+	
+	player_skill_bar.max_value = player_skill_cooldown
+	player_skill_bar.value = player_skill_timer
+	
 	# Enemy info
 	if enemy_alive:
 		enemy_name_label.text = enemy_name + " Lv." + str(enemy_level)
@@ -247,10 +271,21 @@ func update_ui():
 		enemy_hp_bar.value = enemy_hp
 		enemy_hp_label.text = "HP: " + str(enemy_hp) + " / " + str(enemy_max_hp)
 		respawn_timer_label.text = ""
+		
+		# Enemy action progress bars
+		enemy_attack_bar.max_value = enemy_attack_cooldown
+		enemy_attack_bar.value = enemy_attack_timer
+		
+		enemy_skill_bar.max_value = enemy_skill_cooldown
+		enemy_skill_bar.value = enemy_skill_timer
 	else:
 		enemy_name_label.text = enemy_name + " (Dead)"
 		enemy_hp_bar.value = 0
 		enemy_hp_label.text = "HP: 0 / " + str(enemy_max_hp)
+		
+		# Reset enemy action bars when dead
+		enemy_attack_bar.value = 0
+		enemy_skill_bar.value = 0
 
 func add_to_combat_log(message):
 	combat_log.append_text(message + "\n")

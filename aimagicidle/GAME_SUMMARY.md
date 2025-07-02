@@ -5,9 +5,22 @@ A fully functional idle combat game built for Godot 4.4 based on the prototype s
 
 ## ✅ Implemented Features
 
-### 📱 Main Screen UI
-- **Player Stats Display**: Level, XP progress bar, HP/MP bars, Gold counter
-- **Enemy Information**: Enemy name with level, HP bar
+### 📱 Enhanced Main Screen UI
+- **Player Stats Display**: 
+  - Level indicator
+  - XP progress bar (yellow) with overlay text showing current/needed XP
+  - Wider HP bar (red, 30px height) with overlay text
+  - Wider MP bar (blue, 30px height) with overlay text and regeneration (1/sec)
+  - Gold counter
+- **Player Action Bars**:
+  - Attack cooldown progress bar (light red, 2.5s cycle)
+  - Fireball skill cooldown progress bar (orange, 3.5s cycle)
+- **Enemy Information**: 
+  - Enemy name with level
+  - Wider enemy HP bar (red, 30px height)
+- **Enemy Action Bars**:
+  - Wolf Attack cooldown progress bar (dark red, 2.0s cycle)
+  - Vicious Bite skill cooldown progress bar (darker red, 2.5s cycle)
 - **Combat Log**: Scrollable log showing all combat events with color-coded messages
 - **Loot Display**: Shows rewards (+XP, +Gold) when enemies are defeated
 - **Respawn Timer**: Countdown showing when the next enemy will spawn
@@ -16,6 +29,7 @@ A fully functional idle combat game built for Godot 4.4 based on the prototype s
 - **Player Attacks**:
   - Basic Attack: Every 2.5 seconds (15 base damage ±2 variance)
   - Fireball Skill: Every 3.5 seconds (1.5x damage, costs 10 MP)
+  - MP Regeneration: 1 MP per second (automatic)
 - **Enemy Attacks**:
   - Wolf Basic Attack: Every 2.0 seconds (12 base damage ±1 variance)
   - Vicious Bite Skill: Every 2.5 seconds (1.3x damage)
@@ -77,19 +91,26 @@ cd aimagicidle
 godot
 ```
 
-## 🎨 UI Layout
+## 🎨 Enhanced UI Layout
 
-The game features a clean, mobile-friendly vertical layout:
+The game features a clean, mobile-friendly vertical layout with comprehensive progress tracking:
 
 1. **Player Stats Section** (Top)
-   - Level and XP progress
-   - HP bar (red) with overlay text
-   - MP bar (blue) with overlay text  
+   - Level indicator
+   - XP progress bar (25px height, yellow) showing level progression
+   - HP bar (30px height, red) with overlay text
+   - MP bar (30px height, blue) with overlay text and automatic regeneration
    - Gold counter
+   - **Action Progress Bars**:
+     - Attack cooldown (20px height, light red)
+     - Fireball skill cooldown (20px height, orange)
 
 2. **Enemy Section** (Middle)
    - Enemy name and level
-   - Enemy HP bar (red) with overlay text
+   - Enemy HP bar (30px height, red) with overlay text
+   - **Enemy Action Progress Bars**:
+     - Wolf Attack cooldown (20px height, dark red)
+     - Vicious Bite skill cooldown (20px height, darker red)
    - Respawn timer (yellow text)
 
 3. **Combat Log** (Center - Expandable)
@@ -100,6 +121,14 @@ The game features a clean, mobile-friendly vertical layout:
 4. **Rewards Section** (Bottom)
    - Green text showing recent XP/Gold gains
    - Auto-clears after 3 seconds
+
+### 📊 Real-Time Progress Visualization
+All progress bars update in real-time every frame, providing immediate visual feedback for:
+- XP progression towards next level
+- Player attack/skill cooldowns
+- Enemy attack/skill cooldowns  
+- HP/MP levels with regeneration
+- Combat timing and action predictions
 
 ## 🔧 Technical Details
 
