@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://5p6m1bwqm4v"]
 
-[ext_resource type="Script" path="res://Main.gd" id="1_8h7j3"]
+[ext_resource type="Script" uid="uid://bhaaugcxhy84q" path="res://Main.gd" id="1_8h7j3"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -39,11 +39,10 @@ text = "Level: 1"
 vertical_alignment = 1
 
 [node name="XPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 25)
-value = 0.0
-show_percentage = false
 modulate = Color(1, 1, 0.6, 1)
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+show_percentage = false
 
 [node name="XPLabel" type="Label" parent="VBoxContainer/PlayerStats/XPBar"]
 layout_mode = 1
@@ -57,8 +56,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
-layout_mode = 2
 custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
 value = 100.0
 show_percentage = false
 
@@ -74,11 +73,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MPBar" type="ProgressBar" parent="VBoxContainer/PlayerStats"]
-layout_mode = 2
+modulate = Color(0.4, 0.4, 1, 1)
 custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
 value = 50.0
 show_percentage = false
-modulate = Color(0.4, 0.4, 1, 1)
 
 [node name="MPLabel" type="Label" parent="VBoxContainer/PlayerStats/MPBar"]
 layout_mode = 1
@@ -105,11 +104,11 @@ text = "Attack:"
 vertical_alignment = 1
 
 [node name="AttackBar" type="ProgressBar" parent="VBoxContainer/PlayerStats/PlayerActions"]
-layout_mode = 2
+modulate = Color(1, 0.7, 0.7, 1)
 custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 max_value = 2.5
 show_percentage = false
-modulate = Color(1, 0.7, 0.7, 1)
 
 [node name="SkillLabel" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
 layout_mode = 2
@@ -117,11 +116,11 @@ text = "Fireball:"
 vertical_alignment = 1
 
 [node name="SkillBar" type="ProgressBar" parent="VBoxContainer/PlayerStats/PlayerActions"]
-layout_mode = 2
+modulate = Color(1, 0.5, 0.2, 1)
 custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 max_value = 3.5
 show_percentage = false
-modulate = Color(1, 0.5, 0.2, 1)
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -143,11 +142,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="EnemyHPBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo"]
-layout_mode = 2
+modulate = Color(1, 0.4, 0.4, 1)
 custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
 value = 100.0
 show_percentage = false
-modulate = Color(1, 0.4, 0.4, 1)
 
 [node name="EnemyHPLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyHPBar"]
 layout_mode = 1
@@ -169,11 +168,11 @@ text = "Wolf Attack:"
 vertical_alignment = 1
 
 [node name="EnemyAttackBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo/EnemyActions"]
-layout_mode = 2
+modulate = Color(0.8, 0.3, 0.3, 1)
 custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 max_value = 2.0
 show_percentage = false
-modulate = Color(0.8, 0.3, 0.3, 1)
 
 [node name="EnemySkillLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
 layout_mode = 2
@@ -181,18 +180,17 @@ text = "Vicious Bite:"
 vertical_alignment = 1
 
 [node name="EnemySkillBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo/EnemyActions"]
-layout_mode = 2
+modulate = Color(0.6, 0.1, 0.1, 1)
 custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 max_value = 2.5
 show_percentage = false
-modulate = Color(0.6, 0.1, 0.1, 1)
 
 [node name="RespawnTimer" type="Label" parent="VBoxContainer/EnemyInfo"]
+modulate = Color(1, 1, 0, 1)
 layout_mode = 2
-text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
-modulate = Color(1, 1, 0, 1)
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -203,10 +201,10 @@ size_flags_vertical = 3
 
 [node name="Title" type="Label" parent="VBoxContainer/CombatLog"]
 layout_mode = 2
+size_flags_vertical = 0
 text = "=== COMBAT LOG ==="
 horizontal_alignment = 1
 vertical_alignment = 1
-size_flags_vertical = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/CombatLog"]
 layout_mode = 2
@@ -235,8 +233,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RewardText" type="Label" parent="VBoxContainer/LootDisplay"]
+modulate = Color(0, 1, 0, 1)
 layout_mode = 2
-text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
-modulate = Color(0, 1, 0, 1)
