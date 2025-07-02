@@ -104,6 +104,12 @@ layout_mode = 2
 text = "Attack:"
 vertical_alignment = 1
 
+[node name="AttackTimer" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
+layout_mode = 2
+text = "Ready"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="AttackBar" type="ProgressBar" parent="VBoxContainer/PlayerStats/PlayerActions"]
 modulate = Color(1, 0.7, 0.7, 1)
 custom_minimum_size = Vector2(0, 20)
@@ -111,15 +117,15 @@ layout_mode = 2
 max_value = 2.5
 show_percentage = false
 
-[node name="AttackTimer" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
-layout_mode = 2
-text = "Ready"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="SkillLabel" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
 layout_mode = 2
 text = "Fireball:"
+vertical_alignment = 1
+
+[node name="SkillTimer" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
+layout_mode = 2
+text = "Ready"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SkillBar" type="ProgressBar" parent="VBoxContainer/PlayerStats/PlayerActions"]
@@ -128,12 +134,6 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 max_value = 3.5
 show_percentage = false
-
-[node name="SkillTimer" type="Label" parent="VBoxContainer/PlayerStats/PlayerActions"]
-layout_mode = 2
-text = "Ready"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -180,6 +180,12 @@ layout_mode = 2
 text = "Wolf Attack:"
 vertical_alignment = 1
 
+[node name="EnemyAttackTimer" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+layout_mode = 2
+text = "Ready"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="EnemyAttackBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo/EnemyActions"]
 modulate = Color(0.8, 0.3, 0.3, 1)
 custom_minimum_size = Vector2(0, 20)
@@ -187,15 +193,15 @@ layout_mode = 2
 max_value = 2.0
 show_percentage = false
 
-[node name="EnemyAttackTimer" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
-layout_mode = 2
-text = "Ready"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="EnemySkillLabel" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
 layout_mode = 2
 text = "Vicious Bite:"
+vertical_alignment = 1
+
+[node name="EnemySkillTimer" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
+layout_mode = 2
+text = "Ready"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="EnemySkillBar" type="ProgressBar" parent="VBoxContainer/EnemyInfo/EnemyActions"]
@@ -204,12 +210,6 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 max_value = 2.5
 show_percentage = false
-
-[node name="EnemySkillTimer" type="Label" parent="VBoxContainer/EnemyInfo/EnemyActions"]
-layout_mode = 2
-text = "Ready"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="RespawnTimer" type="Label" parent="VBoxContainer/EnemyInfo"]
 modulate = Color(1, 1, 0, 1)

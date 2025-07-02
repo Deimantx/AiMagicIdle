@@ -129,15 +129,15 @@ The game features a modern, mobile-friendly layout with scrollable content and p
    - MP bar (30px height, blue) with overlay text and automatic regeneration
    - Gold counter
    - **Action Progress Bars**:
-     - Attack cooldown (20px height, light red)
-     - Fireball skill cooldown (20px height, orange)
+	 - Attack cooldown (20px height, light red)
+	 - Fireball skill cooldown (20px height, orange)
 
 2. **Enemy Section** (Middle)
    - Enemy name and level
    - Enemy HP bar (30px height, red) with overlay text
    - **Enemy Action Progress Bars**:
-     - Wolf Attack cooldown (20px height, dark red)
-     - Vicious Bite skill cooldown (20px height, darker red)
+	 - Wolf Attack cooldown (20px height, dark red)
+	 - Vicious Bite skill cooldown (20px height, darker red)
    - Respawn timer (yellow text)
 
 3. **Enhanced Combat Log** (Center - Expandable)
