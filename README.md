@@ -73,8 +73,6 @@ Slightly increase stats (example):
 
 +2 Damage per attack
 
-+0.2 faster attack speed (optional)
-
 💰 Loot System (Basic)
 Each monster defeat gives:
 
