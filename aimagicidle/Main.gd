@@ -9,20 +9,67 @@ var current_view = "combat"  # "combat" or "hero"
 var player_level = 1
 var player_xp = 0
 var player_xp_needed = 100
+var player_gold = 0
+
+# New Stat System (STR/AGI/INT/VIT/SPR)
+var player_str = 0  # Strength
+var player_agi = 0  # Agility  
+var player_int = 0  # Intelligence
+var player_vit = 0  # Vitality
+var player_spr = 0  # Spirit
+var player_skill_points = 0  # Skill points to spend
+
+# Calculated stats based on base stats + stat points
 var player_max_hp = 100
 var player_hp = 100
 var player_max_mp = 50
 var player_mp = 50
 var player_damage = 15
-var player_gold = 0
+var player_crit_rate = 0.0  # Critical hit rate
+var player_crit_damage = 1.5  # Critical damage multiplier
+var player_dodge_chance = 0.0  # Dodge chance
+var player_hit_chance = 100.0  # Hit chance
+var player_defense = 0  # Defense (placeholder for future)
 
-# Enemy stats
-var enemy_name = "Wolf"
+# Location and Monster System
+var current_location = "Forest"
+var locations = ["Forest", "Mine", "Outskirts"]
+
+# Monster definitions
+var monsters = {
+	"Forest": [
+		{"name": "Forest Wolf", "level": 1, "max_hp": 80, "damage": 12, "ability": "Critical Strike", "ability_desc": "25% chance for double damage", "description": "Fierce wolf with sharp hunting instincts"},
+		{"name": "Giant Rat", "level": 2, "max_hp": 90, "damage": 14, "ability": "Poison Attack", "ability_desc": "5 damage over time", "description": "Large rat with toxic bite"},
+		{"name": "Goblin Scout", "level": 3, "max_hp": 100, "damage": 16, "ability": "Magic Shield", "ability_desc": "Reduces damage by 2", "description": "Cunning goblin with protective magic"},
+		{"name": "Vampire Bat", "level": 4, "max_hp": 110, "damage": 18, "ability": "Life Steal", "ability_desc": "30% of damage heals", "description": "Bloodthirsty creature that feeds on life"},
+		{"name": "Shadow Demon", "level": 5, "max_hp": 120, "damage": 20, "ability": "Double Attack", "ability_desc": "Attacks twice", "description": "Dark entity with lightning-fast strikes"}
+	],
+	"Mine": [
+		{"name": "Skeleton Warrior", "level": 1, "max_hp": 85, "damage": 13, "ability": "Armor Pierce", "ability_desc": "Ignores 3 defense", "description": "Undead warrior with ancient weapons"},
+		{"name": "Stone Golem", "level": 2, "max_hp": 95, "damage": 15, "ability": "Stun Chance", "ability_desc": "20% chance to stun", "description": "Ancient construct with crushing blows"},
+		{"name": "Ancient Lich", "level": 3, "max_hp": 105, "damage": 17, "ability": "Magic Shield", "ability_desc": "Reduces damage by 2", "description": "Powerful undead mage"},
+		{"name": "Orc Warrior", "level": 4, "max_hp": 115, "damage": 19, "ability": "Berserker Rage", "ability_desc": "+8 attack when wounded", "description": "Fierce orc warrior"},
+		{"name": "Troll Berserker", "level": 5, "max_hp": 125, "damage": 21, "ability": "Berserker Rage", "ability_desc": "+8 attack when wounded", "description": "Massive troll that grows stronger when wounded"}
+	],
+	"Outskirts": [
+		{"name": "Fire Elemental", "level": 1, "max_hp": 90, "damage": 14, "ability": "Burn Attack", "ability_desc": "5 damage over time", "description": "Blazing creature that burns everything"},
+		{"name": "Young Dragon", "level": 2, "max_hp": 100, "damage": 16, "ability": "Critical Strike", "ability_desc": "40% chance for double damage", "description": "Juvenile dragon with devastating attacks"},
+		{"name": "Vampire Bat", "level": 3, "max_hp": 110, "damage": 18, "ability": "Life Steal", "ability_desc": "30% of damage heals", "description": "Bloodthirsty creature that feeds on life"},
+		{"name": "Shadow Demon", "level": 4, "max_hp": 120, "damage": 20, "ability": "Double Attack", "ability_desc": "Attacks twice", "description": "Dark entity with lightning-fast strikes"},
+		{"name": "Troll Berserker", "level": 5, "max_hp": 125, "damage": 21, "ability": "Berserker Rage", "ability_desc": "+8 attack when wounded", "description": "Massive troll that grows stronger when wounded"}
+	]
+}
+
+# Current enemy stats
+var enemy_name = "Forest Wolf"
 var enemy_level = 1
 var enemy_max_hp = 80
 var enemy_hp = 80
 var enemy_damage = 12
 var enemy_alive = true
+var enemy_ability = "Critical Strike"
+var enemy_ability_desc = "25% chance for double damage"
+var enemy_description = "Fierce wolf with sharp hunting instincts"
 
 # Combat timers
 var player_attack_cooldown = 2.5
@@ -64,6 +111,11 @@ var is_respawning = false
 @onready var enemy_skill_timer_label = $VBoxContainer/EnemyInfo/EnemyActions/EnemySkillTimer
 @onready var respawn_timer_label = $VBoxContainer/EnemyInfo/RespawnTimer
 
+# Location selector buttons
+@onready var forest_btn = $VBoxContainer/EnemyInfo/LocationSelector/ForestBtn
+@onready var mine_btn = $VBoxContainer/EnemyInfo/LocationSelector/MineBtn
+@onready var outskirts_btn = $VBoxContainer/EnemyInfo/LocationSelector/OutskirtsBtn
+
 @onready var combat_log = $VBoxContainer/CombatLog/ScrollContainer/LogText
 @onready var reward_text = $VBoxContainer/LootDisplay/RewardText
 
@@ -83,6 +135,9 @@ var is_respawning = false
 func _ready():
 	# Add to group so Hero panel can find this node
 	add_to_group("main")
+	
+	# Calculate initial player stats
+	calculate_player_stats()
 	
 	update_ui()
 	add_to_combat_log("[color=yellow]⚔️ Combat begins! Prepare for battle![/color]")
@@ -114,6 +169,38 @@ func _ready():
 	# Set Combat as default active button
 	if combat_btn != null:
 		_set_active_nav_button(combat_btn)
+	
+	# Connect location selector buttons
+	if forest_btn != null:
+		forest_btn.pressed.connect(_on_forest_pressed)
+	if mine_btn != null:
+		mine_btn.pressed.connect(_on_mine_pressed)
+	if outskirts_btn != null:
+		outskirts_btn.pressed.connect(_on_outskirts_pressed)
+	
+	# Set initial location button as active
+	update_location_buttons()
+
+func calculate_player_stats():
+	# Base stats
+	var base_hp = 100
+	var base_mp = 50
+	var base_damage = 15
+	
+	# Calculate stats from STR/AGI/INT/VIT/SPR
+	player_max_hp = base_hp + (player_vit * 10) + int(base_hp * (player_vit * 0.01))
+	player_max_mp = base_mp + (player_int * 5) + (player_spr * 10) + int(base_mp * (player_int * 0.01))
+	player_damage = base_damage + (player_str * 2)
+	player_crit_rate = player_agi * 0.1
+	player_crit_damage = 1.5 + (player_str * 0.01)
+	player_dodge_chance = player_agi * 0.05
+	player_hit_chance = 100.0 + (player_agi * 0.1)
+	
+	# Ensure HP/MP don't go below current values
+	if player_hp > player_max_hp:
+		player_hp = player_max_hp
+	if player_mp > player_max_mp:
+		player_mp = player_max_mp
 	
 func _process(delta):
 	if is_respawning:
@@ -253,17 +340,14 @@ func check_level_up():
 		player_xp -= player_xp_needed
 		player_level += 1
 		
-		# Increase stats on level up
-		player_max_hp += 10
-		player_hp = player_max_hp  # Full heal on level up
-		player_max_mp += 3
-		player_mp = player_max_mp  # Full MP restore on level up
-		player_damage += 2
+		# Give skill point on level up
+		player_skill_points += 1
 		
 		# Increase XP needed for next level
 		player_xp_needed = player_level * 100
 		
-		add_to_combat_log("[color=gold]⭐ LEVEL UP! Now level " + str(player_level) + "! (+10 HP, +3 MP, +2 Damage)[/color]")
+		add_to_combat_log("[color=gold]⭐ LEVEL UP! Now level " + str(player_level) + "! You gained 1 Skill Point![/color]")
+		add_to_combat_log("[color=cyan]💡 Use the Hero panel to spend your skill points![/color]")
 
 func start_respawn():
 	is_respawning = true
@@ -279,9 +363,8 @@ func handle_respawn(delta):
 	respawn_timer -= delta
 	
 	if respawn_timer <= 0:
-		# Respawn enemy
-		enemy_alive = true
-		enemy_hp = enemy_max_hp
+		# Spawn random monster from current location
+		spawn_random_monster()
 		is_respawning = false
 		
 		# Restore player HP/MP
@@ -294,6 +377,20 @@ func handle_respawn(delta):
 		# Update respawn timer display
 		if respawn_timer_label != null:
 			respawn_timer_label.text = "🔄 New enemy spawning in: " + str(int(ceil(respawn_timer))) + "s"
+
+func spawn_random_monster():
+	var location_monsters = monsters[current_location]
+	var random_monster = location_monsters[randi() % location_monsters.size()]
+	
+	enemy_name = random_monster.name
+	enemy_level = random_monster.level
+	enemy_max_hp = random_monster.max_hp
+	enemy_hp = enemy_max_hp
+	enemy_damage = random_monster.damage
+	enemy_ability = random_monster.ability
+	enemy_ability_desc = random_monster.ability_desc
+	enemy_description = random_monster.description
+	enemy_alive = true
 
 func update_ui():
 	# Player stats with null checks
@@ -386,6 +483,11 @@ func update_ui():
 			else:
 				var remaining = enemy_skill_cooldown - enemy_skill_timer
 				enemy_skill_timer_label.text = str(int(ceil(remaining))) + "s"
+		
+		# Update enemy skill label to show ability
+		var skill_label = get_node("VBoxContainer/EnemyInfo/EnemyActions/EnemySkillLabel")
+		if skill_label != null:
+			skill_label.text = enemy_ability + ":"
 	else:
 		if enemy_name_label != null:
 			enemy_name_label.text = enemy_name + " (Dead)"
@@ -467,6 +569,55 @@ func _on_shop_pressed():
 func _on_more_pressed():
 	_set_active_nav_button(more_btn)
 
+# Location switching functions
+func _on_forest_pressed():
+	current_location = "Forest"
+	update_location_buttons()
+	add_to_combat_log("[color=green]🌲 Switched to Forest location[/color]")
+	if enemy_alive:
+		add_to_combat_log("[color=yellow]⚠️ Current enemy will remain until defeated[/color]")
+
+func _on_mine_pressed():
+	current_location = "Mine"
+	update_location_buttons()
+	add_to_combat_log("[color=green]⛏️ Switched to Mine location[/color]")
+	if enemy_alive:
+		add_to_combat_log("[color=yellow]⚠️ Current enemy will remain until defeated[/color]")
+
+func _on_outskirts_pressed():
+	current_location = "Outskirts"
+	update_location_buttons()
+	add_to_combat_log("[color=green]🏘️ Switched to Outskirts location[/color]")
+	if enemy_alive:
+		add_to_combat_log("[color=yellow]⚠️ Current enemy will remain until defeated[/color]")
+
+func update_location_buttons():
+	# Reset all location buttons
+	if forest_btn != null:
+		forest_btn.modulate = Color.WHITE
+		forest_btn.flat = true
+	if mine_btn != null:
+		mine_btn.modulate = Color.WHITE
+		mine_btn.flat = true
+	if outskirts_btn != null:
+		outskirts_btn.modulate = Color.WHITE
+		outskirts_btn.flat = true
+	
+	# Highlight active location
+	match current_location:
+		"Forest":
+			if forest_btn != null:
+				forest_btn.modulate = Color.GREEN
+				forest_btn.flat = false
+		"Mine":
+			if mine_btn != null:
+				mine_btn.modulate = Color.GREEN
+				mine_btn.flat = false
+		"Outskirts":
+			if outskirts_btn != null:
+				outskirts_btn.modulate = Color.GREEN
+				outskirts_btn.flat = false
+
 # View switching functions
 func switch_to_hero_view():
 	if current_view == "hero":
@@ -493,7 +644,8 @@ func switch_to_hero_view():
 		"max_hp": player_max_hp,
 		"damage": player_damage,
 		"defense": 5,  # We'll add this stat later
-		"max_mp": player_max_mp
+		"max_mp": player_max_mp,
+		"skill_points": player_skill_points
 	}
 	hero_instance.update_player_stats(player_data)
 	

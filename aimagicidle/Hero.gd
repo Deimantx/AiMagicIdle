@@ -107,6 +107,31 @@ func update_player_stats(data):
 	var hero_power = data.get("max_hp", 100) + (data.get("damage", 15) * 10) + (data.get("max_mp", 50) * 2)
 	if power_value != null:
 		power_value.text = str(hero_power)
+	
+	# Update stat points display if available
+	var skill_points = data.get("skill_points", 0)
+	if skill_points > 0:
+		# Add skill points notification to the hero panel
+		var notification = get_node_or_null("MainContainer/HeroContent/ContentContainer/SkillPointsNotification")
+		if notification == null:
+			# Create notification if it doesn't exist
+			notification = Label.new()
+			notification.name = "SkillPointsNotification"
+			notification.text = "💎 " + str(skill_points) + " Skill Points Available!"
+			notification.modulate = Color.GOLD
+			notification.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			notification.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			
+			var content_container = get_node("MainContainer/HeroContent/ContentContainer")
+			if content_container != null:
+				content_container.add_child(notification)
+		else:
+			notification.text = "💎 " + str(skill_points) + " Skill Points Available!"
+	else:
+		# Remove notification if no skill points
+		var notification = get_node_or_null("MainContainer/HeroContent/ContentContainer/SkillPointsNotification")
+		if notification != null:
+			notification.queue_free()
 
 func _on_equipment_slot_pressed(slot_name: String, icon: String):
 	# Placeholder for equipment slot interaction
