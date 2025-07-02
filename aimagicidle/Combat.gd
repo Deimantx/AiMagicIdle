@@ -184,6 +184,9 @@ func _ready():
 	# Set combat as active button
 	_set_active_nav_button(combat_btn)
 
+	# Ensure UI reflects loaded data
+	update_ui()
+
 func calculate_player_stats():
 	# Base stats
 	var base_hp = 100
@@ -306,6 +309,9 @@ func enemy_died():
 	
 	player_xp += xp_reward
 	player_gold += gold_reward
+	# Save XP and gold immediately after updating
+	Global.set_game_data("player_xp", player_xp)
+	Global.set_game_data("player_gold", player_gold)
 	
 	add_to_combat_log("[color=green]💀 " + enemy_name + " is defeated![/color]")
 	add_to_combat_log("[color=yellow]💰 Gained " + str(xp_reward) + " XP and " + str(gold_reward) + " Gold![/color]")
@@ -319,6 +325,9 @@ func enemy_died():
 	start_respawn()
 	
 	update_ui()
+	
+	# Save game after each kill
+	Global.save_game()
 
 func show_rewards(xp_gain, gold_gain):
 	if reward_text != null:

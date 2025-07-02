@@ -39,34 +39,46 @@ static func save_game():
 		"current_location": current_location,
 		"monster_selected": monster_selected
 	}
-	
 	var file = FileAccess.open("user://savegame.json", FileAccess.WRITE)
+	if file == null:
+		print("Failed to open save file for writing!")
+		return
 	file.store_string(JSON.stringify(game_data))
 	file.close()
+	print("Game saved to: ", ProjectSettings.globalize_path("user://savegame.json"))
 
 static func load_game():
-	if FileAccess.file_exists("user://savegame.json"):
-		var file = FileAccess.open("user://savegame.json", FileAccess.READ)
-		var data = file.get_as_text()
-		file.close()
-		var loaded = JSON.parse_string(data)
-		if typeof(loaded) == TYPE_DICTIONARY:
-			player_level = loaded.get("player_level", 1)
-			player_xp = loaded.get("player_xp", 0)
-			player_xp_needed = loaded.get("player_xp_needed", 100)
-			player_hp = loaded.get("player_hp", 100.0)
-			player_max_hp = loaded.get("player_max_hp", 100.0)
-			player_mp = loaded.get("player_mp", 50.0)
-			player_max_mp = loaded.get("player_max_mp", 50.0)
-			player_gold = loaded.get("player_gold", 0)
-			player_skill_points = loaded.get("player_skill_points", 0)
-			player_str = loaded.get("player_str", 5)
-			player_agi = loaded.get("player_agi", 5)
-			player_int = loaded.get("player_int", 5)
-			player_vit = loaded.get("player_vit", 5)
-			player_spr = loaded.get("player_spr", 5)
-			current_location = loaded.get("current_location", "Forest")
-			monster_selected = loaded.get("monster_selected", 0)
+	var save_path = "user://savegame.json"
+	if not FileAccess.file_exists(save_path):
+		print("No save file found at: ", ProjectSettings.globalize_path(save_path))
+		return
+	var file = FileAccess.open(save_path, FileAccess.READ)
+	if file == null:
+		print("Failed to open save file for reading!")
+		return
+	var data = file.get_as_text()
+	file.close()
+	var loaded = JSON.parse_string(data)
+	if typeof(loaded) == TYPE_DICTIONARY:
+		player_level = loaded.get("player_level", 1)
+		player_xp = loaded.get("player_xp", 0)
+		player_xp_needed = loaded.get("player_xp_needed", 100)
+		player_hp = loaded.get("player_hp", 100.0)
+		player_max_hp = loaded.get("player_max_hp", 100.0)
+		player_mp = loaded.get("player_mp", 50.0)
+		player_max_mp = loaded.get("player_max_mp", 50.0)
+		player_gold = loaded.get("player_gold", 0)
+		player_skill_points = loaded.get("player_skill_points", 0)
+		player_str = loaded.get("player_str", 5)
+		player_agi = loaded.get("player_agi", 5)
+		player_int = loaded.get("player_int", 5)
+		player_vit = loaded.get("player_vit", 5)
+		player_spr = loaded.get("player_spr", 5)
+		current_location = loaded.get("current_location", "Forest")
+		monster_selected = loaded.get("monster_selected", 0)
+		print("Game loaded successfully.")
+	else:
+		print("Failed to parse save file!")
 
 # Getter/Setter functions
 static func get_game_data(key: String, default_value = null):
