@@ -1,0 +1,52 @@
+Core Game Features:
+Combat Focused Gameplay
+Battles are mostly automated but with timed attacks and timed skills and these both can overlap in same action.
+Enemies attack speed and skills depends on their lore.
+Players gets xp from kills level up gets points to spend on attributes.
+
+//Simple, Minimal UI//
+Mostly text-based, game with less need on assets.
+Player, monsters will have their images in future.
+Small number of clickable buttons
+Small emojis where its applicable.
+
+Tabs or simple screens for:
+Combat
+Inventory
+Crafting
+Hero Details
+Shop
+
+Locations
+Multiple areas (e.g., Forest, Dungeon, Ruins, Volcano).
+Each location has different enemies and loot.
+Players can travel between locations (1 button click).
+
+Loot and Inventory:
+Enemies drop gold and/or items after battles.
+Items go into a basic inventory list (text list is okay for now in future small icons will be added).
+Some items are crafting materials, others are gear.
+
+Crafting System
+Players can craft items using loot/materials.
+Items take time to craft (e.g., 10 seconds).
+Some items improve attack, defense, or skills.
+
+Shop System
+Players can buy or sell items with gold.
+Basic shop menu with simple list of items and prices.
+
+//////////
+💡 Design Tips for Cursor AI
+Keep all interfaces text-based (labels, buttons, and text popups).
+
+Use Timers for attack delays, skill cooldowns, and crafting time.
+
+Use Signals to update the UI after battle or crafting completes.
+
+Use Nodes like Label, Button, Timer, and VBoxContainer for UI.
+
+Use a main scene with simple navigation buttons at the bottom (Combat, Inventory, Shop, etc.).
+
+Store player data (gold, health, inventory) in a singleton/autoload.
+
