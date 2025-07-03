@@ -1,24 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqhb43xf805r1"]
+[gd_scene load_steps=4 format=3 uid="uid://du048v7b7gi4n"]
 
-[ext_resource type="Script" uid="uid://cfhtg52m73d44" path="res://Hero.gd" id="1_hero_script"]
+[ext_resource type="Script" uid="uid://caha4bew5wg3m" path="res://HeroUIConnections.gd" id="1"]
+[ext_resource type="Script" uid="uid://cfhtg52m73d44" path="res://Hero.gd" id="2"]
 
-[node name="Hero" type="Control"]
+[node name="HeroUI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_hero_script")
-
-[node name="Background" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.1, 0.1, 0.15, 1)
+script = ExtResource("2")
 
 [node name="MainContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -123,105 +115,6 @@ size_flags_vertical = 3
 custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 
-[node name="LeftEquipment" type="VBoxContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 20.0
-offset_top = -200.0
-offset_right = 100.0
-offset_bottom = 200.0
-grow_vertical = 2
-
-[node name="ChestSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-text = "🎽"
-flat = true
-
-[node name="ChestLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment/ChestSlot"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = 5.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "+"
-horizontal_alignment = 1
-
-[node name="ArmorSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-text = "👕"
-flat = true
-
-[node name="ArmorLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment/ArmorSlot"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = 5.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "+"
-horizontal_alignment = 1
-
-[node name="BootsSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-text = "🥾"
-flat = true
-
-[node name="BootsLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment/BootsSlot"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = 5.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "+"
-horizontal_alignment = 1
-
-[node name="WeaponSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment"]
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-text = "⚔️"
-flat = true
-
-[node name="WeaponLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/LeftEquipment/WeaponSlot"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = 5.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "+"
-horizontal_alignment = 1
-
 [node name="CenterArea" type="VBoxContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea"]
 layout_mode = 1
 anchors_preset = 8
@@ -229,173 +122,43 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -150.0
-offset_right = 100.0
-offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PlayerName" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
+[node name="EquipmentGrid" type="GridContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
 layout_mode = 2
-text = "ADVENTURER"
-horizontal_alignment = 1
-vertical_alignment = 1
+columns = 3
 
-[node name="PlayerLevel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
-layout_mode = 2
-text = "LEVEL 5"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CharacterDisplay" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
-custom_minimum_size = Vector2(0, 200)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="CharacterBG" type="ColorRect" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/CharacterDisplay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.3, 0.3, 0.4, 0.5)
-
-[node name="CharacterSprite" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/CharacterDisplay"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "🧙‍♂️"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="PowerDisplay" type="VBoxContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
+[node name="Slot_Head" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/EquipmentGrid"]
 layout_mode = 2
 
-[node name="PowerLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/PowerDisplay"]
+[node name="Slot_Neck" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/EquipmentGrid"]
 layout_mode = 2
-text = "HERO POWER"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="PowerValue" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/PowerDisplay"]
+[node name="Slot_Back" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/EquipmentGrid"]
 layout_mode = 2
-text = "8,437"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="RightEquipment" type="VBoxContainer" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -200.0
-offset_right = -20.0
-offset_bottom = 200.0
-grow_horizontal = 0
-grow_vertical = 2
-
-[node name="NecklaceSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
-custom_minimum_size = Vector2(80, 80)
+[node name="Slot_Weapon" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/EquipmentGrid"]
 layout_mode = 2
-text = "📿"
-flat = true
 
-[node name="NecklaceLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment/NecklaceSlot"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = 5.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "+"
-horizontal_alignment = 1
-
-[node name="RingSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
-custom_minimum_size = Vector2(80, 80)
+[node name="Slot_Armor" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/EquipmentGrid"]
 layout_mode = 2
-text = "💍"
-flat = true
 
-[node name="RingLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment/RingSlot"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = 5.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "+"
-horizontal_alignment = 1
-
-[node name="BackpackSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
-custom_minimum_size = Vector2(80, 80)
+[node name="Slot_Shield" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/EquipmentGrid"]
 layout_mode = 2
-text = "🎒"
-flat = true
 
-[node name="BackpackLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment/BackpackSlot"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = 5.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "+"
-horizontal_alignment = 1
-
-[node name="SkillSlot" type="Button" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment"]
-custom_minimum_size = Vector2(80, 80)
+[node name="Slot_Gloves" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/EquipmentGrid"]
 layout_mode = 2
-text = "🃏"
-flat = true
 
-[node name="SkillLabel" type="Label" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment/SkillSlot"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = 5.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "+"
-horizontal_alignment = 1
+[node name="Slot_Boots" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/EquipmentGrid"]
+layout_mode = 2
+
+[node name="Slot_Ring" type="Panel" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea/EquipmentGrid"]
+layout_mode = 2
+
+[node name="Connections" type="Control" parent="MainContainer/HeroContent/ContentContainer/EquipmentArea/CenterArea"]
+layout_mode = 2
+script = ExtResource("1")
 
 [node name="BottomNav" type="Panel" parent="MainContainer"]
 custom_minimum_size = Vector2(0, 80)
