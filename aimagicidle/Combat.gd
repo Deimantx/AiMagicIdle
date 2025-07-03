@@ -116,17 +116,17 @@ var hero_instance = null
 var current_view = "combat"
 
 # Bottom navigation buttons
-@onready var combat_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/CombatBtn
-@onready var hero_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/HeroBtn
-@onready var inventory_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/InventoryBtn
-@onready var equipment_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/EquipmentBtn
-@onready var upgrades_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/UpgradesBtn
-@onready var settings_btn = $VBoxContainer/BottomNav/NavContainer/TopRow/SettingsBtn
-@onready var home_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/HomeBtn
-@onready var progress_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/ProgressBtn
-@onready var quests_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/QuestsBtn
-@onready var shop_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/ShopBtn
-@onready var more_btn = $VBoxContainer/BottomNav/NavContainer/BottomRow/MoreBtn
+@onready var combat_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/CombatBtn')
+@onready var equipment_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/EquipmentBtn')
+@onready var upgrades_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/UpgradesBtn')
+@onready var inventory_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/InventoryBtn')
+@onready var settings_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/SettingsBtn')
+@onready var home_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/HomeBtn')
+@onready var hero_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/HeroBtn')
+@onready var progress_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/ProgressBtn')
+@onready var quests_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/QuestsBtn')
+@onready var shop_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/ShopBtn')
+@onready var more_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/MoreBtn')
 
 func _ready():
 	# Load player data from Global script

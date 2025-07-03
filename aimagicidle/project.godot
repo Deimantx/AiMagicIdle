@@ -24,6 +24,12 @@ Global="*res://Global.gd"
 window/size/viewport_width=720
 window/size/viewport_height=1280
 
+[file_customization]
+
+folder_colors={
+"res://Ui/": "green"
+}
+
 [rendering]
 
 renderer/rendering_method="mobile"

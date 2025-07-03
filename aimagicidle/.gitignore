@@ -1,3 +1,44 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Godot-specific
+.import/
+.export/
+export.cfg
+export_presets.cfg
+
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor/IDE settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Godot lock files
+*.godot-lock
+
+# User-specific files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Python cache (if you use any Python scripts)
+__pycache__/
+*.pyc
+
+# Node modules (if you use npm for tools)
+node_modules/
+
+# Windows-specific
+ehthumbs.db
+Icon?

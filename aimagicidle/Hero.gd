@@ -23,18 +23,18 @@ extends Control
 @onready var skill_slot = $MainContainer/HeroContent/ContentContainer/EquipmentArea/RightEquipment/SkillSlot
 
 # Bottom navigation references
-@onready var combat_btn = $MainContainer/BottomNav/NavContainer/TopRow/CombatBtn
-@onready var equipment_btn = $MainContainer/BottomNav/NavContainer/TopRow/EquipmentBtn
-@onready var upgrades_btn = $MainContainer/BottomNav/NavContainer/TopRow/UpgradesBtn
-@onready var inventory_btn = $MainContainer/BottomNav/NavContainer/TopRow/InventoryBtn
-@onready var settings_btn = $MainContainer/BottomNav/NavContainer/TopRow/SettingsBtn
+@onready var combat_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/CombatBtn')
+@onready var equipment_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/EquipmentBtn')
+@onready var upgrades_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/UpgradesBtn')
+@onready var inventory_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/InventoryBtn')
+@onready var settings_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/TopRow/SettingsBtn')
 
-@onready var home_btn = $MainContainer/BottomNav/NavContainer/BottomRow/HomeBtn
-@onready var hero_btn = $MainContainer/BottomNav/NavContainer/BottomRow/HeroBtn
-@onready var progress_btn = $MainContainer/BottomNav/NavContainer/BottomRow/ProgressBtn
-@onready var quests_btn = $MainContainer/BottomNav/NavContainer/BottomRow/QuestsBtn
-@onready var shop_btn = $MainContainer/BottomNav/NavContainer/BottomRow/ShopBtn
-@onready var more_btn = $MainContainer/BottomNav/NavContainer/BottomRow/MoreBtn
+@onready var home_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/HomeBtn')
+@onready var hero_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/HeroBtn')
+@onready var progress_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/ProgressBtn')
+@onready var quests_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/QuestsBtn')
+@onready var shop_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/ShopBtn')
+@onready var more_btn = get_tree().root.get_node('Main/NavigationBar/NavContainer/BottomRow/MoreBtn')
 
 # Player data (will be set by Main scene)
 var player_data = {}
